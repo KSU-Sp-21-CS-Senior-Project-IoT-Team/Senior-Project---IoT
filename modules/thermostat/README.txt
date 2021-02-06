@@ -1,0 +1,1 @@
+Use this directory for things relating to the thermostat module.
