@@ -1,0 +1,4 @@
+- Get Apache Tomcat installed and configure IDE to work with it
+- Build skeleton REST API
+- Define some testing endpoints to get adjusted to Servlet REST API workflow / design
+- Build executable with testing endpoints and test on hosting service
