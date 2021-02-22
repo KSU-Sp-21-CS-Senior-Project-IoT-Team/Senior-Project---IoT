@@ -80,59 +80,59 @@ hs_err_pid*
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/workspace.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/tasks.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/usage.statistics.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dictionaries
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/shelf
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/workspace.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/tasks.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/usage.statistics.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dictionaries
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/shelf
+modules/server/ide project dir/Senior-Project---IoT/.idea/
 *.iml
 *.MF
 
 # Generated files
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/contentModel.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/contentModel.xml
 
 # Sensitive or high-churn files
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dataSources/
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dataSources.ids
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dataSources.local.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/sqlDataSources.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dynamic.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/uiDesigner.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/dbnavigator.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dataSources/
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dataSources.ids
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dataSources.local.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/sqlDataSources.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dynamic.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/uiDesigner.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/dbnavigator.xml
 
 # Gradle
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/gradle.xml
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/libraries
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/gradle.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/libraries
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
-# modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/modules.xml
-# modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/*.iml
-# modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/modules
+# modules/server/ide project dir/Senior-Project---IoT/.idea/modules.xml
+# modules/server/ide project dir/Senior-Project---IoT/.idea/*.iml
+# modules/server/ide project dir/Senior-Project---IoT/.idea/modules
 
 # CMake
 cmake-build-*/
 
 # Mongo Explorer plugin
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/**/mongoSettings.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/**/mongoSettings.xml
 
 # File-based project format
 *.iws
 
 # IntelliJ
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/out/
+modules/server/ide project dir/Senior-Project---IoT/out/
 
-# mpeltonen/sbt-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea plugin
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea_modules/
+# mpeltonen/sbt-modules/server/ide project dir/Senior-Project---IoT/.idea plugin
+modules/server/ide project dir/Senior-Project---IoT/.idea_modules/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/replstate.xml
+modules/server/ide project dir/Senior-Project---IoT/.idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -141,10 +141,10 @@ crashlytics-build.properties
 fabric.properties
 
 # Editor-based Rest Client
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/httpRequests
+modules/server/ide project dir/Senior-Project---IoT/.idea/httpRequests
 
 # Android studio 3.1+ serialized cache file
-modules/server/ide project dir/KSU-Sp-21-CS-Senior-Project-IoT/.idea/caches/build_file_checksums.ser
+modules/server/ide project dir/Senior-Project---IoT/.idea/caches/build_file_checksums.ser
 
 #Dia diagrams
 *.dia
