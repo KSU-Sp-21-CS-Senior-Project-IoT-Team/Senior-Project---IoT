@@ -149,3 +149,4 @@ modules/server/ide project dir/Senior-Project---IoT/.idea/caches/build_file_chec
 #Dia diagrams
 *.dia
 *.dia~
+*.docx#
