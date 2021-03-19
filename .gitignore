@@ -112,6 +112,7 @@ modules/server/ide project dir/Senior-Project---IoT/.idea/**/libraries
 # modules/server/ide project dir/Senior-Project---IoT/.idea/modules.xml
 # modules/server/ide project dir/Senior-Project---IoT/.idea/*.iml
 # modules/server/ide project dir/Senior-Project---IoT/.idea/modules
+# modules/server/ide project dir/Senior-Project---IoT/.idea/*.xml
 
 # CMake
 cmake-build-*/
@@ -150,3 +151,12 @@ modules/server/ide project dir/Senior-Project---IoT/.idea/caches/build_file_chec
 *.dia
 *.dia~
 *.docx#
+
+*/.idea/*
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/vcs.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/uiDesigner.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/modules.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/misc.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/libraries/MtgSaberLib_Algorithms_v0_1_2.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/aws.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/workspace.xml
