@@ -160,3 +160,7 @@ modules/server/ide_project_dir/Senior-Project---IoT/.idea/misc.xml
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/libraries/MtgSaberLib_Algorithms_v0_1_2.xml
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/aws.xml
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/workspace.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/libraries/com_google_code_gson_gson_2_8_6.xml
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/artifacts/TestingAPI_Movies_v1.xml
+modules/server/ide_project_dir/Senior-Project---IoT/out/test/Senior-Project---IoT/TestingRequests.http
+modules/server/ide_project_dir/Senior-Project---IoT/test/TestingRequests.http
