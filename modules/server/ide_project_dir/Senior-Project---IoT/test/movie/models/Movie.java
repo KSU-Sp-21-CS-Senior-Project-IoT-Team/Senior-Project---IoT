@@ -1,4 +1,4 @@
-package testinghandlers.models;
+package movie.models;
 
 public class Movie {
     public final String title, description, genre;

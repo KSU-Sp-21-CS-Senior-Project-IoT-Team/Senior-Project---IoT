@@ -1,7 +1,7 @@
-package testinghandlers.dao;
+package movie.dao;
 
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.Dao;
-import testinghandlers.models.Movie;
+import movie.models.Movie;
 
 import java.io.IOException;
 

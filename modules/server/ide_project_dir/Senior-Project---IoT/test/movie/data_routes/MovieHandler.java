@@ -1,12 +1,12 @@
-package testinghandlers.data_routes;
+package movie.data_routes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
-import testinghandlers.dao.Movies;
-import testinghandlers.models.Movie;
+import movie.dao.Movies;
+import movie.models.Movie;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,7 +55,6 @@ public class MovieHandler extends APIHandler {
 
     @Override
     public void doGET(HttpExchange exchange) {
-        super.doGET(exchange);
         List<String> parts = Utils.getPathParts(exchange.getRequestURI());
         parts.remove(parts.get(0));
         int moviesIndex = parts.lastIndexOf("movies");

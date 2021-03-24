@@ -1,13 +1,14 @@
+package movie;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIServer;
-import testinghandlers.dao.Movies;
-import testinghandlers.models.Movie;
-import testinghandlers.data_routes.MovieHandler;
+import movie.dao.Movies;
+import movie.models.Movie;
+import movie.data_routes.MovieHandler;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
