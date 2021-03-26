@@ -1,0 +1,202 @@
+﻿
+body {
+    background-color: darkgray
+}
+
+.register{
+    background-color:silver;
+}
+
+.register-page{
+    width: 360px;
+    padding: 10% 0 0;
+    margin: auto;
+}
+.form{
+    position: relative;
+    z-index: 1;
+    background: whitesmoke;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center; 
+
+}
+.form input{
+    font-family: "Roboto", sans-serif;
+    outline:1;
+    background: white;
+    width:100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+
+}
+.form button{
+    font-family: "Roboto",sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: white;
+    font-size:14px; 
+    cursor: pointer;
+
+}
+
+h1 {
+    border: 5px solid black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 42px;
+    position: absolute;
+    top: 0%;
+    left: 13%;
+}
+
+h2 {
+    border: 5px solid black;
+    display: inline;
+    position: absolute;
+    right: 12%;
+    top: 0px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+}
+
+h3 {
+    border: 5px solid black;
+    display: inline;
+    position: absolute;
+    right: 17%;
+    top: 52%;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+}
+
+#horizontalLine {
+    width: 50%;
+    left: 50%;
+    top: 50%;
+    background-color: black;
+    border: solid black;
+    position: absolute;
+}
+
+.vl {
+    border-left: 4px solid black;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
+
+p1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 84px;
+    position: absolute;
+    left: 21%;
+    top: 40%;
+}
+
+p2 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    position: absolute;
+    left: 20%;
+    top: 55%;
+    text-align: center
+}
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 50px solid red;
+    position: absolute;
+    right: 15%;
+    top: 18%;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 50px solid blue;
+    position: absolute;
+    right: 15%;
+    top: 32%;
+}
+
+p3 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 54px;
+    position: absolute;
+    right: 24%;
+    top: 24%;
+}
+
+.buttons {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 40px;
+    position: absolute;
+    right: 14%;
+    top: 72%;
+    text-align: center;
+}
+
+.cool {
+    height: 30px;
+    width: 80px;
+    background-color: lightblue;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.EMERG {
+    height: 30px;
+    width: 80px;
+    background-color: yellow;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.auto {
+    height: 30px;
+    width: 80px;
+    background-color: green;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.heat {
+    height: 30px;
+    width: 80px;
+    background-color: orange;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.off {
+    height: 30px;
+    width: 80px;
+    background-color: red;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
