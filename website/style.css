@@ -227,3 +227,24 @@ mark{
   background-color: lightblue;
   color: black;
 }
+
+.forecast{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.location{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 24px;
+}
+
+.description{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 36px;
+}
+
+.highLow{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 46px;
+}
