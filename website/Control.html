@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>repl.it</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-
-<body>
+  </head>
+  
+  <body>
     <script src="hvac.js"></script>
+ <div class = "topnav">
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="Device_Registration.html">Registration</a>
+    <a href="Device_Management.html">Device Management</a></div>
+  
+    
+  <h1 style="margin-top: 80px">SmartStat Systems</h1>
+  <hr id="horizontalLine">
+ 
+  <p1 id ="p1" type = number value = "70">70&#176</p1>
+  <br><br><br><br>
+  <p2 id = "p2">Currently:<br>Off</p2>
 
+  <h2 style="margin-top: 80px">Temperature Adjustment</h2>
+  <p3 id = "p3" type = number value = "70">70&#176;</p3>
 
+  <div class="triangle-up" onclick="incTemp()"></div>
+  <br>
+  <div class="triangle-down" onclick="decTemp()"></div>
 
-    <h1 style="display: inline">SmartStat Systems</h1>
-    <hr id="horizontalLine">
+  
+  <div class="vl"></div>
+  
+  <h3>Climate Settings</h3>
 
-    <p1 id="p1" type=number value="70">70&#176</p1>
-    <br><br><br><br>
-    <p2 id="p2">Currently:<br>Off</p2>
+  <div class = "buttons"> <div class="cool" onclick="cooling()">Cool</div>
+  <div class="EMERG" onclick="emrg()">EMRG</div>
+  <div class="auto" onclick="auto()">Auto</div>
+  <div class="heat" onclick="heating()">Heat</div><br>
+  <div class="off" onclick="off()">Off</div></div>
+  
 
-    <h2 style="display: inline">Temperature Adjustment</h2>
-    <p3 id="p3" type=number value="70">70&#176;</p3>
-
-    <div class="triangle-up" onclick="incTemp()"></div>
-    <br>
-    <div class="triangle-down" onclick="decTemp()"></div>
-
-
-    <div class="vl"></div>
-
-    <h3>Climate Settings</h3>
-
-    <div class="buttons">
-        <div class="cool" onclick="cooling()">Cool</div>
-        <div class="EMERG" onclick="emrg()">EMRG</div>
-        <div class="auto" onclick="auto()">Auto</div>
-        <div class="heat" onclick="heating()">Heat</div><br>
-        <div class="off" onclick="off()">Off</div>
-    </div>
-
-
-</body>
-<script type="text/javascript" src="script.js"></script>
+  </body>
+  <script type="text/javascript" src="script.js"></script>
 </html>
