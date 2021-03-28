@@ -1,0 +1,432 @@
+﻿
+body {
+    background-color: darkgray
+}
+
+.register{
+    background-color:silver;
+}
+
+.register-page{
+    width: 360px;
+    padding: 10% 0 0;
+    margin: auto;
+}
+.form{
+    position: relative;
+    z-index: 1;
+    background: whitesmoke;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center; 
+
+}
+.form input{
+    font-family: "Roboto", sans-serif;
+    outline:1;
+    background: white;
+    width:100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+
+}
+.form button{
+    font-family: "Roboto",sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: white;
+    font-size:14px; 
+    cursor: pointer;
+
+}
+
+h1 {
+    border: 5px solid black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 42px;
+    position: absolute;
+    top: 0%;
+    left: 13%;
+}
+
+h2 {
+    border: 5px solid black;
+    display: inline;
+    position: absolute;
+    right: 12%;
+    top: 0px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+}
+
+h3 {
+    border: 5px solid black;
+    display: inline;
+    position: absolute;
+    right: 17%;
+    top: 52%;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+}
+
+h4{
+  border: 5px solid black;
+  width: fit-content;
+  margin-left: 42%;
+  text-align: center;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 56px;
+}
+
+#horizontalLine {
+    width: 50%;
+    left: 50%;
+    top: 50%;
+    background-color: black;
+    border: solid black;
+    position: absolute;
+}
+
+.vl {
+    border-left: 4px solid black;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
+
+p1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 84px;
+    position: absolute;
+    left: 21%;
+    top: 40%;
+}
+
+p2 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    position: absolute;
+    left: 20%;
+    top: 55%;
+    text-align: center
+}
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 50px solid red;
+    position: absolute;
+    right: 15%;
+    top: 18%;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 50px solid blue;
+    position: absolute;
+    right: 15%;
+    top: 32%;
+}
+
+p3 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 54px;
+    position: absolute;
+    right: 24%;
+    top: 24%;
+}
+
+.buttons {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 40px;
+    position: absolute;
+    right: 14%;
+    top: 72%;
+    text-align: center;
+}
+
+.cool {
+    height: 30px;
+    width: 80px;
+    background-color: lightblue;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.EMERG {
+    height: 30px;
+    width: 80px;
+    background-color: yellow;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.auto {
+    height: 30px;
+    width: 80px;
+    background-color: green;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.heat {
+    height: 30px;
+    width: 80px;
+    background-color: orange;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.off {
+    height: 30px;
+    width: 80px;
+    background-color: red;
+    border-radius: 50%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: inline;
+}
+
+.days{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 35px;
+  display: flex;
+}
+
+.column {
+  margin: 30px;
+  margin-right: 40px;
+  padding: 20px;
+  font-size: 30px;
+}
+
+mark{
+  background-color: lightblue;
+  color: black;
+}
+
+.forecast{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.location{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 24px;
+}
+
+.description{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 36px;
+}
+
+.highLow{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 46px;
+}
+.topnav{
+    background-color: #333;
+    overflow: hidden;
+}
+
+.topnav a{
+    float: left;
+    color:#f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.fancy {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 18px;
+  display:inline-block;
+  text-shadow: 3px 3px 6px black;
+  /* Same trick as previously used to make circles */
+  box-sizing: border-box;
+  width     : 150px;
+  height    : 150px;
+  padding   : 50px 1em 0 1em;
+
+  /* We make room for the "ears" of our cloud */
+  margin    : 0 175px;
+
+  position: relative;
+
+  background-color: rgb(149, 207, 216);
+  color: white;
+  /* Well, actually we are not making a full circle
+     as we want the bottom of our cloud to be flat.
+     Feel free to tweak this example to make a cloud
+     that isn't flat at the bottom ;) */
+  border-radius: 100% 100% 0 0;
+}
+
+/* Those are common style that apply to both our ::before
+   and ::after pseudo elements. */
+.fancy::before,
+.fancy::after {
+  /* This is required to be allowed to display the
+     pseudo-elements, event if the value is an empty
+     string */
+  content: '';
+
+  /* We position our pseudo-elements on the left and
+     right sides of the box, but always at the bottom */
+  position: absolute;
+  bottom  : 0;
+
+  /* This makes sure our pseudo-elements will be below
+     the box content whatever happens. */
+  z-index : -1;
+
+  background-color: #A4C9CF;
+  border-radius: 100%;
+}
+
+.fancy::before {
+  /* This is the  size of the clouds left ear */
+  width  : 125px;
+  height : 125px;
+
+  /* We slightly move it to the left */
+  left    : -80px;
+
+  /* To make sure that the bottom of the cloud
+     remains flat, we must make the bottom right
+     corner of the left ear square. */
+  border-bottom-right-radius: 0;
+}
+
+.fancy::after {
+  /* This is the size of the clouds left ear */
+  width  : 100px;
+  height : 100px;
+
+  /* We slightly move it to the right */
+  right   : -60px;
+
+  /* To make sure that the bottom of the cloud
+     remains flat, we must make the bottom left
+     corner of the right ear square. */
+  border-bottom-left-radius: 0;
+}
+
+p4{
+  font-size: 22px;
+  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 5px solid gray;
+  font-weight: bold;
+  background-color: floralwhite;
+  margin-top: -20px;
+  text-shadow: 2px 2px 5px gray;
+}
+
+.settings{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 22px;
+  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  background-color: rgb(192, 231, 236);
+  width: 25%;
+  border-radius: 12px;
+  margin-left: 35%;
+  padding: 30px;
+  box-shadow: 5px 5px 30px 5px gray;
+
+ }
+
+ input[type=text] {
+  padding: 10px;
+  border-radius:10px;
+  border:0;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  width:35%;
+  background-color: white;
+ }
+
+ input[type=submit] {
+  padding: 20px;
+  border:none;
+  background-color: #333;
+  color:#fff;
+  font-weight:600;
+  border-radius:5px;
+  width:50%;
+  box-shadow: 0 0 12px gray;
+}
+
+.regchoices{
+    background-color: #333;
+    overflow: hidden;
+
+}
+
+.regchoices button{
+    background-color: white;
+    position: relative;
+}
+
+.addDevice input{
+    font-family: "Roboto", sans-serif;
+    outline:1;
+    background: white;
+    width:100%;
+    border: 2px solid black;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+
+}
+
+.addDevice p{
+  width: 300px;
+  border: 4px solid grey;
+  background: white;
+  padding: 20px;
+  margin: 20px;
+
+}
+
+.regchoices{
+    position: relative;
+    text-align: center;
+    width: 360px;
+    padding: 10% 0 0;
+    margin: auto;
+    background-color:white;
+   
+
+}

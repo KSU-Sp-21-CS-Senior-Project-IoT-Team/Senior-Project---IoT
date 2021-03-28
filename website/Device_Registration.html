@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<link rel = "stylesheet" href = "style.css">
+<style>
+    li{display:inline}
+</style>
+<head>
+
+</head>
+
+<body>
+        <div class = "topnav">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="Device_Registration.html">Registration</a>
+                <a href="Device_Management.html">Device Management</a></body>
+            </div>    
+
+            
+            
+            <div class = "regchoices">
+            <a href = "Registered_list.html">Registered Devices</a>
+            <a href = "Registered_Devices.html">Register A Device</a>
+            <a href = "Thermostat_configuration.html">Thermostat Configuration</a>
+       <!-- <li><a href="Registered_Devices.html">Registered Devices</a></li>
+        <li><a href="Registration.html">Register</a></li>move to login
+        <li><a href="Thermostat_Configuration.html">Thermostat Configuration</a></li>-->
+
+        <script>
+                var myArr = [];
+
+                function openPage()
+                {
+                    var inputText = document.getElementById('inputText').value;
+                    myArr.push(inputText);
+
+                    var pval = "";
+                    
+                    for(i = 0; i < myArr.length; i++){
+                        pval = pval + myArr[i] + "<br/> ";
+                    }
+                    document.getElementById('pText').innerHTML = pval;
+                }
+
+
+
+            </script>
+    </div>
+</body>
+
+
+
+
+
+</html>
