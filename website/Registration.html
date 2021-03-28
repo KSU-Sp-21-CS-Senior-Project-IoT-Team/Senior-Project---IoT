@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <head><link rel = "stylesheet" href = "style.css"></head>
 <body class = "register">
+
+        <div class = "topnav">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="Device_Registration.html">Registration</a>
+                <a href="Device_Management.html">Device Management</a></body>
+            </div>   
         <div class = "register-page">
             <div class = "form">
+                Register Here
                 <form class = "registration form">
                 <input type = "text" placeholder = "user name"/>
-                <input type = "text" placeholder = "password"/>
+                <input type = "password" placeholder = "password"/>
                 <input type = "text" placeholder = "email"/>
-                <button> Create </button>
+                <button onclick="showAlert()"> Create </button>
                 <p class = "msg">Have an account? <a href ="#"> Login </a></p>
                 </form>
 
+
+                <script>
+                    function showAlert(){
+                        alert("Registration Complete!");
+                    }
+                
+                </script>
             </div>
+
         </div>
     </body>
