@@ -43,7 +43,7 @@ public class MovieTest {
             System.out.println("Matcher for movies:");
             System.out.println("\t" + server.ROUTING_MAP.toString());
             System.out.println("\t" + server.INSTANCE_MAP.toString());
-            System.out.println("Result of applying movie matcher to correct uri: " + MovieHandler.MATCHER.apply("/api/movies/1234"));
+            //System.out.println("Result of applying movie matcher to correct uri: " + MovieHandler.MATCHER.apply("/api/movies/1234"));
 
             System.out.println("Handler registered for movie paths: ");
             System.out.println("\t"+ server.getHandler("/api/movies/1234").getClass().getName());

@@ -40,7 +40,7 @@ public class MovieHandler extends APIHandler {
 
     // make sure you have this two lines in all child classes
     private static final Pattern PATH_PATTERN;
-    public static final Function<String, Boolean> MATCHER;
+    private static final Function<String, Boolean> MATCHER;
 
     private static final String PATTERN_GETALL = "";
     private static final String PATTERN_GETBYID = "";
