@@ -78,7 +78,7 @@ public abstract class APIHandler implements Comparable<APIHandler>, Closeable {
         }
         final Supplier<C> finFactory = factory;
         final Function<String, Boolean> finMatcher = matcher;
-        return new Factory<C>() {
+        return new Factory<>() {
             @Override
             public C create() {
                 return finFactory.get();

@@ -25,7 +25,7 @@ public class AuthenticationServer implements HttpHandler, Closeable {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) throws IOException { // TODO: properly implement OAuth
         if (HTTPMethod.fromString(exchange.getRequestMethod()) == HTTPMethod.POST) {
             final LoginCredentials credentials = gson.fromJson(
                     new InputStreamReader(exchange.getRequestBody()),

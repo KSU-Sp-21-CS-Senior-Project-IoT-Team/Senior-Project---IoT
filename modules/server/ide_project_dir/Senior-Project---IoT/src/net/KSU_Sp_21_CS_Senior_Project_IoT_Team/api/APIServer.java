@@ -217,7 +217,11 @@ public class APIServer implements HttpHandler {
         // finished waiting, time to close handlers...
         for (PriorityQueue<? extends APIHandler> handlerQueue : INSTANCE_MAP.values()) {
             for (APIHandler handler : handlerQueue) {
-                handler.close();
+                try {
+                    handler.close();
+                } catch (IOException e) {
+                    e.printStackTrace(); // TODO: handle ioexceptions!
+                }
             }
         }
     }
