@@ -153,6 +153,7 @@ modules/server/ide project dir/Senior-Project---IoT/.idea/caches/build_file_chec
 *.docx#
 
 */.idea/*
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/*
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/vcs.xml
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/uiDesigner.xml
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/modules.xml
@@ -172,3 +173,7 @@ design/Endpoints Table Snip [2021.03.27.15.30].PNG
 design/Endpoints Table Snip [2021.03.27.15.30].PNG
 design/API Requirements [2021.03.27.15.30].pdf
 *.pptx
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/httpRequests/http-requests-log.http
+modules/server/ide_project_dir/Senior-Project---IoT/.idea/httpRequests/http-client.cookies
+modules/server/ide_project_dir/Senior-Project---IoT/test/TestingRequests.http
+modules/server/ide_project_dir/Senior-Project---IoT/test/TestingRequests.http

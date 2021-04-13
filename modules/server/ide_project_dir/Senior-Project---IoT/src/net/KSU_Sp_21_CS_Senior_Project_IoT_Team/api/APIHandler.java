@@ -43,6 +43,10 @@ public abstract class APIHandler implements Comparable<APIHandler>, Closeable {
         // TODO: add default return of "method not supported"
     }
 
+    protected void sendNotFound(HttpExchange exchange) {
+        // TODO: send response for resource not found (code 404)
+    }
+
     public abstract void close() throws IOException;
 
     /**
