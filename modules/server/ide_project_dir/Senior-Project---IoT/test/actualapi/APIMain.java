@@ -1,7 +1,6 @@
 package actualapi;
 
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpsServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.data_routes.DeviceHandler;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.data_routes.UserHandler;

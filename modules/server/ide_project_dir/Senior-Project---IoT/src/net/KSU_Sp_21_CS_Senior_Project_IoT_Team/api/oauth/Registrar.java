@@ -14,16 +14,16 @@ import java.sql.SQLException;
 import static net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils.sanitize;
 
 public class Registrar {
+    private static final String ACCOUNT_INSERT =
+            "insert into iot_db.Account(account_id, type, password) "
+            + "values('%s', '%s', '%s');";
+
     private static final String USER_INSERT =
-            "insert into Account(account_id, type, password) "
-            + "values('%s', '%s', '%s'); "
-            + "insert into Users(user_id, account_id, email) "
+            "insert into iot_db.User(user_id, account_id, email) "
             + "values('%s', '%s', '%s');";
 
     private static final String DEVICE_INSERT =
-            "insert into Account(account_id, type, password) "
-            + "values('%s', '%s', '%s'); "
-            + "insert into Thermostat_Device(serial, account_id) values('%s', '%s');";
+            "insert into iot_db.Thermostat_Device(serial_number, account_id) values('%s', '%s');";
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -41,8 +41,12 @@ public class Registrar {
         try {
             // write to database
             dbConn.prepareStatement(String.format(
+                    ACCOUNT_INSERT,
+                    record.accountID, "user", record.password
+            )).execute();
+
+            dbConn.prepareStatement(String.format(
                     USER_INSERT,
-                    record.accountID, "user", record.password,
                     sanitizedUsername, record.accountID, sanitizedEmail
             )).execute();
 
@@ -65,8 +69,12 @@ public class Registrar {
 
         try {
             dbConn.prepareStatement(String.format(
+                    ACCOUNT_INSERT,
+                    record.accountID, "device", record.password
+            )).execute();
+
+            dbConn.prepareStatement(String.format(
                     DEVICE_INSERT,
-                    record.accountID, "device", record.password,
                     sanitizedSerial, record.accountID
             )).execute();
 

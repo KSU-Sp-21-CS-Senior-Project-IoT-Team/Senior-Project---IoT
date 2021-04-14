@@ -2,7 +2,6 @@ package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.User;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.AccountLoginRecord;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Security;
@@ -17,17 +16,19 @@ import static net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils.sanitize;
 
 public class Authenticator {
     private static final String USER_LOGIN_QUERY =
-            "select (A.account_id, A.password) "
-            + "from Account as A join User as B "
+            "select A.account_id, A.password "
+            + "from iot_db.Account as A join iot_db.User as B "
             + "on A.account_id = B.account_id "
-            + "where B.username = '%s';";
+            + "where B.user_id = '%s';";
+
     private static final String DEVICE_LOGIN_QUERY =
-            "select (A.account_id, A.password) "
-            + "from Account as A join Device as B "
+            "select A.account_id, A.password "
+            + "from iot_db.Account as A join iot_db.Thermostat_Device as B "
             + "on A.account_id = B.account_id "
-            + "where B.serial = '%s';";
+            + "where B.serial_number = '%s';";
+
     private static final String TOKEN_CREATION =
-            "insert into Login_Token values('%s', '%s', '%s');";
+            "insert into iot_db.Login_Token(token_id, account_id, expiry_time) values('%s', '%s', '%s');";
 
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -42,15 +43,12 @@ public class Authenticator {
             final AccountLoginRecord record = GSON.fromJson(Utils.rsToJSON(rs).get(0), AccountLoginRecord.class);
 
             if (security.comparePassword(record.password, password)) {
-                final Token token = security.createToken(sanitizedID);
-                PreparedStatement statement = dbconn.prepareStatement(
+                final Token token = security.createToken(record.accountID);
+                //System.out.println("Token: " + GSON.toJson(token, Token.class));
+                dbconn.prepareStatement(
                         String.format(TOKEN_CREATION, token.token, token.accountID, token.expiryTime)
-                );
-                if (statement.execute()) {
-                    return token;
-                } else {
-                    throw new Exception("failed to insert token!");
-                }
+                ).execute();
+                return token;
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace(); // TODO: proper logging

@@ -6,11 +6,11 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -25,7 +25,7 @@ public class Security {
 
     private final SecureRandom random;
 
-    public Security(long tokenLifetime, int shaIterations, String dbAESKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException {
+    public Security(long tokenLifetime, int shaIterations, String dbAESKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, InvalidAlgorithmParameterException {
         this.tokenLifetime = tokenLifetime;
         this.shaIterations = shaIterations;
 
@@ -33,8 +33,12 @@ public class Security {
         sha256 = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         aesEncryption = Cipher.getInstance("AES/CBC/PKCS5Padding");
         aesDecryption = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        aesEncryption.init(Cipher.ENCRYPT_MODE, sha256.generateSecret(new PBEKeySpec(dbAESKey.toCharArray())));
-        aesDecryption.init(Cipher.DECRYPT_MODE, sha256.generateSecret(new PBEKeySpec(dbAESKey.toCharArray())));
+        final byte[] salt = dbAESKey.getBytes(StandardCharsets.US_ASCII);
+        final Key temp = sha256.generateSecret(new PBEKeySpec(dbAESKey.toCharArray(), salt, 100000, 256));
+        final IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(temp.getEncoded(), 0, 16));
+        final SecretKeySpec aesKeySpec = new SecretKeySpec(temp.getEncoded(), "AES");
+        aesEncryption.init(Cipher.ENCRYPT_MODE, aesKeySpec, iv);
+        aesDecryption.init(Cipher.DECRYPT_MODE, aesKeySpec, iv);
     }
 
     /**

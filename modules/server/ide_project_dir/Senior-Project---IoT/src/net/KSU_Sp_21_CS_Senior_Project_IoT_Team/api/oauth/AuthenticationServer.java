@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.DatabaseConfig;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.LoginCredentials;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 

@@ -1,34 +1,51 @@
 package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ScheduleCost implements APIModel {
     static { // TODO: set values for default testing instance
         APIModel.registerDefault(ScheduleCost.class, new ScheduleCost(
-                "9999",
-                "1111",
+                0x9999,
+                0x1111,
                 "2222",
-                "3333",
-                false,
+                0x3333,
+                "false",
                 "today",
-                1.0,
-                0.0
+                1.0f,
+                0.0f
         ));
     }
 
-    public final String costID;
-    public final String scheduleID;
-    public final String deviceID;
-    public final String forecastID;
-    public final Boolean isPrediction;
-    public final String date;
-    public Double amount;
-    public Double accuracy;
+    @SerializedName("cost_id")
+    public final Integer costID;
 
-    public ScheduleCost(String costID, String scheduleID, String deviceID, String forecastID, Boolean isPrediction, String date, Double amount, Double accuracy) {
+    @SerializedName("schedule_id")
+    public final Integer scheduleID;
+
+    @SerializedName("serial_number")
+    public final String deviceID;
+
+    @SerializedName("forecast_id")
+    public final Integer forecastID;
+
+    @SerializedName("isprediction")
+    public final Boolean isPrediction;
+
+    @SerializedName("date")
+    public final String date;
+
+    @SerializedName("amount")
+    public final Float amount;
+
+    @SerializedName("accuracy")
+    public final Float accuracy;
+
+    public ScheduleCost(Integer costID, Integer scheduleID, String deviceID, Integer forecastID, String isPrediction, String date, Float amount, Float accuracy) {
         this.costID = costID;
         this.scheduleID = scheduleID;
         this.deviceID = deviceID;
         this.forecastID = forecastID;
-        this.isPrediction = isPrediction;
+        this.isPrediction = Boolean.parseBoolean(isPrediction);
         this.date = date;
         this.amount = amount;
         this.accuracy = accuracy;

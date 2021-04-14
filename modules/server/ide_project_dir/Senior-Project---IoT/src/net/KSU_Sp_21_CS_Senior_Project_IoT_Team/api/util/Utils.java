@@ -40,15 +40,20 @@ public class Utils {
         JsonPrimitive primitive;
         final JsonArray json = new JsonArray();
         final Map<Integer, String> columnMap = new HashMap<>(rsmd.getColumnCount());
-        for (int i = 0; i < rsmd.getColumnCount(); i++)
-            columnMap.put(i, rsmd.getColumnName(i+1));
+        for (int i = 1; i <= rsmd.getColumnCount(); i++)
+            columnMap.put(i, rsmd.getColumnName(i));
         while (rs.next()) {
             obj = new JsonObject();
-            for (int i = 0; i < rsmd.getColumnCount(); i++) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 primitive = switch (rsmd.getColumnType(i)) {
-                    case Types.BIGINT -> new JsonPrimitive(rs.getInt(i));
+                    case Types.BIGINT, Types.INTEGER, Types.TINYINT, Types.SMALLINT -> new JsonPrimitive(rs.getInt(i));
                     case Types.BOOLEAN -> new JsonPrimitive(rs.getBoolean(i));
-                    // TODO: add rest of types
+                    case Types.DOUBLE -> new JsonPrimitive(rs.getDouble(i));
+                    case Types.FLOAT -> new JsonPrimitive(rs.getFloat(i));
+                    case Types.NVARCHAR -> new JsonPrimitive(rs.getNString(i));
+                    case Types.VARCHAR -> new JsonPrimitive(rs.getString(i));
+                    case Types.DATE -> new JsonPrimitive(rs.getDate(i).toString());
+                    case Types.TIMESTAMP -> new JsonPrimitive(rs.getTimestamp(i).toString());
                     default -> null;
                 };
                 if (primitive != null) {

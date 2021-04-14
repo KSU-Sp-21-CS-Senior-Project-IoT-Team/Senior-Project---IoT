@@ -11,11 +11,11 @@ import java.sql.Connection;
 
 public class TokenValidator {
     private static final String QUERY_TOKEN =
-            "select token_id, account_id, expiry_time from Login_Token "
-            + "where token_id = '%s' and account_id = '%s'";
+            "select token_id, account_id, expiry_time from iot_db.Login_Token "
+            + "where token_id = '%s' and account_id = '%s';";
 
     private static final String DEL_TOKEN =
-            "delete from Login_Token where token_id = '%s'";
+            "delete from iot_db.Login_Token where token_id = '%s';";
 
     private static final Gson GSON = new GsonBuilder().create();
 

@@ -1,21 +1,34 @@
 package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Forecast implements APIModel {
     static { // TODO: set values for default testing instance
         APIModel.registerDefault(Forecast.class, new Forecast(
-                "0000",
+                0,
                 "today",
-                "{}"
+                "{}",
+                0
         ));
     }
 
-    public final String forecastID;
+    @SerializedName("forecast_id")
+    public final Integer forecastID;
+
+    @SerializedName("date")
     public final String date;
+
+    @SerializedName("data_from_api")
     public final String dataJSON;
 
-    public Forecast(String forecastID, String date, String dataJSON) {
+    @SerializedName("location_id")
+    public final Integer locationID;
+
+
+    public Forecast(Integer forecastID, String date, String dataJSON, Integer locationID) {
         this.forecastID = forecastID;
         this.date = date;
         this.dataJSON = dataJSON;
+        this.locationID = locationID;
     }
 }
