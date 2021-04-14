@@ -15,15 +15,15 @@ import static net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils.sanitize;
 
 public class Registrar {
     private static final String USER_INSERT =
-            "insert into Accounts(account_id, type, password) "
+            "insert into Account(account_id, type, password) "
             + "values('%s', '%s', '%s'); "
             + "insert into Users(user_id, account_id, email) "
             + "values('%s', '%s', '%s');";
 
     private static final String DEVICE_INSERT =
-            "insert into Accounts(account_id, type, password) "
+            "insert into Account(account_id, type, password) "
             + "values('%s', '%s', '%s'); "
-            + "insert into Devices(serial, account_id) values('%s', '%s');";
+            + "insert into Thermostat_Device(serial, account_id) values('%s', '%s');";
 
     private static final SecureRandom RANDOM = new SecureRandom();
 

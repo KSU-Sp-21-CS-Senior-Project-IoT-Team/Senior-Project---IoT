@@ -1,7 +1,6 @@
 package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util;
 
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.AccountLoginRecord;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.LoginCredentials;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
 
 import javax.crypto.Cipher;
@@ -14,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.UUID;
 
 public class Security {
@@ -39,14 +39,14 @@ public class Security {
 
     /**
      * record format is iterations:salt:password
-     * @param recordPassword
+     * @param recordPassword in Base64
      * @param claimPassword
      * @return
      */
     public boolean comparePassword(String recordPassword, String claimPassword) {
         try {
             final String[] parts = new String(
-                    aesDecryption.doFinal(recordPassword.getBytes(StandardCharsets.US_ASCII)),
+                    aesDecryption.doFinal(Base64.getDecoder().decode(recordPassword)),
                     StandardCharsets.US_ASCII
             ).split(":");
 
@@ -67,6 +67,7 @@ public class Security {
         }
     }
 
+
     public AccountLoginRecord createLoginRecord(String password) {
         try {
             // get a new account id
@@ -75,7 +76,7 @@ public class Security {
             // encrypt the password hash with salt and iteration count
             final byte[] salt = new byte[16];
             random.nextBytes(salt);
-            final String recordPassword = new String(
+            final String recordPassword = Base64.getEncoder().encodeToString(
                     aesEncryption.doFinal(
                             ("" + shaIterations + ":"
                             + Utils.bytesToHex(salt) + ":"
@@ -84,8 +85,7 @@ public class Security {
                                             password.toCharArray(), salt, shaIterations, 64 * 8
                                     )).getEncoded()
                             )).getBytes(StandardCharsets.US_ASCII)
-                    ),
-                    StandardCharsets.US_ASCII
+                    )
             );
 
             return new AccountLoginRecord(accountID, recordPassword);
