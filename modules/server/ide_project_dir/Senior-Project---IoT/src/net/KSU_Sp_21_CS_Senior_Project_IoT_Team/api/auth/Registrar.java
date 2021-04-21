@@ -1,9 +1,9 @@
-package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth;
+package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth;
 
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.User;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.AccountLoginRecord;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.LoginCredentials;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.AccountLoginRecord;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.LoginCredentials;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Security;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 

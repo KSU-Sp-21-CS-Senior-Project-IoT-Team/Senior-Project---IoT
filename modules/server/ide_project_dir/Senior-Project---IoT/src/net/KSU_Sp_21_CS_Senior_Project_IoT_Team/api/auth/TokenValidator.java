@@ -1,9 +1,9 @@
-package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth;
+package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Security;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 

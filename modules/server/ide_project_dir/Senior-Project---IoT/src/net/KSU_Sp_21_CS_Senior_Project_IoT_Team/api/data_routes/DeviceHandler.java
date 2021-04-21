@@ -55,6 +55,20 @@ public class DeviceHandler extends APIHandler {
     @Override
     public void doGET(HttpExchange exchange) {
         List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
+
+        // Utils.parseQueryString(exchange.getRequestURI().getQuery())
+        String token = exchange.getRequestHeaders().getFirst("token");
+        gson.fromJson();
+        "sabernet.ddns.net:8080/api/devices?user_id=joe";
+        Device d = deviceDao.secureGetDeviceByUsername(map.get("user_id"));
+        gson.toJson(d, Device.class);
+        exchange.getRequestBody()
+        try (PrintWriter p= new PrintWriter(exchange.getResponseBody())) {
+            exchange.sendResponseHeaders(200, s.length());
+            p.print(s)
+        }
+
+
         System.out.println(uriParts);
         String response = null;
         // TODO: use the query map to narrow the search

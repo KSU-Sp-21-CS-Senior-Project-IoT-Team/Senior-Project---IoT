@@ -1,7 +1,7 @@
 package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util;
 
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.AccountLoginRecord;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.AccountLoginRecord;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;

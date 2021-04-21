@@ -1,11 +1,11 @@
-package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth;
+package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.DatabaseConfig;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.DBConnectionProvider;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.*;
@@ -40,12 +40,18 @@ public class AuthenticationServer extends APIHandler {
     private static final Pattern PATTERN;
     private static final Function<String, Boolean> MATCHER;
     private static final String DEFAULT_DB_CFG_LOC = "./config/auth_db_cfg.json";
+    private static DBConnectionProvider dbConnectionProvider;
 
     private final AuthenticationServiceProvider provider;
     private static final Gson gson = new GsonBuilder().create();
 
     public AuthenticationServer() {
-        this(new AuthenticationServiceProvider(new Authenticator(), new TokenValidator(), new Registrar(), getDefaultConfig()));
+        this(new AuthenticationServiceProvider(
+                new Authenticator(),
+                new TokenValidator(),
+                new Registrar(),
+                dbConnectionProvider
+        ));
     }
 
     public AuthenticationServer(AuthenticationServiceProvider provider) {
@@ -105,14 +111,7 @@ public class AuthenticationServer extends APIHandler {
         provider.close();
     }
 
-    private static DatabaseConfig getDefaultConfig() {
-        try (FileReader in = new FileReader(new File(DEFAULT_DB_CFG_LOC))) {
-            return gson.fromJson(in, DatabaseConfig.class);
-        } catch (FileNotFoundException e) { // TODO: proper logging
-            e.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-        return null; // TODO: log this!
+    public static void init() throws IOException {
+        dbConnectionProvider = new DBConnectionProvider(new File(DEFAULT_DB_CFG_LOC));
     }
 }

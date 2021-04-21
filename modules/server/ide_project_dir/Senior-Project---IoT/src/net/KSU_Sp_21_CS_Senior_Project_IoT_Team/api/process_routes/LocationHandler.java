@@ -40,7 +40,7 @@ public class LocationHandler extends APIHandler {
     // TODO: implement
     @Override
     public void doGET(HttpExchange exchange) {
-
+        // TODO: Josh
     }
 
     @Override

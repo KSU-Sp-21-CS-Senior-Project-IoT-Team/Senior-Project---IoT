@@ -1,10 +1,9 @@
-package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth;
+package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth;
 
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.User;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.DatabaseConfig;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.LoginCredentials;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.oauth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.LoginCredentials;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.DBConnectionProvider;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Security;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Wrapper;
@@ -24,16 +23,16 @@ public class AuthenticationServiceProvider implements Closeable {
 
     private final Wrapper<Boolean> isAlive = new Wrapper<>(false);
 
-    public AuthenticationServiceProvider(Authenticator authenticator, TokenValidator validator, Registrar registrar, DatabaseConfig dbConfig) {
+    public AuthenticationServiceProvider(Authenticator authenticator, TokenValidator validator, Registrar registrar, DBConnectionProvider dbConnProvider) {
         this.authenticator = authenticator;
         this.validator = validator;
         this.registrar = registrar;
-        this.dbConnProvider = new DBConnectionProvider(dbConfig);
+        this.dbConnProvider = dbConnProvider;
 
-        if (authenticator == null || validator == null || registrar == null || dbConfig == null) return;
+        if (authenticator == null || validator == null || registrar == null || dbConnProvider == null) return;
 
         try {
-            this.apiSecurity = new Security(TOKEN_LIFETIME, SHA_ITERATIONS, dbConfig.aesKey);
+            this.apiSecurity = new Security(TOKEN_LIFETIME, SHA_ITERATIONS, dbConnProvider.config.aesKey);
             isAlive.val = true;
         } catch (Exception e) {
             e.printStackTrace();

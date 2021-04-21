@@ -31,7 +31,7 @@ public class Utils {
     }
 
     public static String sanitize(String unsanitized) {
-        return unsanitized.replaceAll("[\"'\\\\/(),;+=%]", "");
+        return unsanitized.replaceAll("[\"']", "");
     }
 
     public static JsonArray rsToJSON(ResultSet rs) throws SQLException {
