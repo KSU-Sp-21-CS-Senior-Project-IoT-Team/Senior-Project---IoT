@@ -99,6 +99,8 @@ public class Security {
     }
 
     public Token createToken(String accountID) {
+        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis() + tokenLifetime);
         return new Token(UUID.randomUUID().toString(), accountID, System.currentTimeMillis() + tokenLifetime);
     }
 }

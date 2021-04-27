@@ -9,7 +9,7 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.sql.Connection;
 
-public class TokenValidator {
+public class TokenValidator { // TODO: parameterize sql!
     private static final String QUERY_TOKEN =
             "select token_id, account_id, expiry_time from iot_db.Login_Token "
             + "where token_id = '%s' and account_id = '%s';";
@@ -35,7 +35,9 @@ public class TokenValidator {
                 return ValidationResult.REJECTED;
 
             // token is still active
-            if (GSON.fromJson(queryRes.get(0), Token.class).expiryTime > curTime)
+            Token recordToken = GSON.fromJson(queryRes.get(0), Token.class);
+            System.out.println("Token Expiry Time: " + recordToken.expiryTime + "\n\tCurrent Time: " + System.currentTimeMillis());
+            if (recordToken.expiryTime > curTime)
                 return ValidationResult.AUTHORIZED;
 
             // remove expired token from the database

@@ -17,17 +17,17 @@ public class Device implements APIModel {
     @SerializedName("serial_number")
     public final String serialNumber;
 
-    @SerializedName("account_id")
-    public final String accountID;
-
-    @SerializedName("user_id")
-    public final String ownerID;
+    @SerializedName("model_id")
+    public final Integer hvacModelID;
 
     @SerializedName("location_id")
     public final Integer locationID;
 
-    @SerializedName("model_id")
-    public final Integer hvacModelID;
+    @SerializedName("user_id")
+    public final String ownerID;
+
+    @SerializedName("account_id")
+    public final String accountID;
 
     @SerializedName("active_schedule")
     public final Integer scheduleID;

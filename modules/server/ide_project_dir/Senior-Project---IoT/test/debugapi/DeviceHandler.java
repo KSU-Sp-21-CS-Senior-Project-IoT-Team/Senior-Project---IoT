@@ -1,9 +1,11 @@
-package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.data_routes;
+package debugapi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.InvalidTokenException;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.DeviceDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleCostDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleDao;
@@ -15,6 +17,8 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -41,7 +45,6 @@ public class DeviceHandler extends APIHandler {
     private final DeviceDao deviceDao;
     private final ScheduleDao scheduleDao;
     private final ScheduleCostDao costDao;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public DeviceHandler() {
         super(MATCHER);
@@ -54,55 +57,55 @@ public class DeviceHandler extends APIHandler {
     // TODO: implement
     @Override
     public void doGET(HttpExchange exchange) {
-        List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
+        final List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
+        /*
+        final String authString = exchange.getRequestHeaders().get("Authorization").get(0).split(" ")[1];
+        final String[] rawAuthParts = new String(
+                Base64.getDecoder().decode(
+                        authString
+                ),
+                StandardCharsets.US_ASCII
+        ).split(":");
+         */
+        //final Token clientToken = new Token(rawAuthParts[1], rawAuthParts[0], -1);
+        //System.out.println(gson.toJson(clientToken, Token.class));
+        //System.out.println(uriParts.toString());
 
-        // Utils.parseQueryString(exchange.getRequestURI().getQuery())
-        //String token = exchange.getRequestHeaders().getFirst("token");
-        //gson.fromJson();
-        //"sabernet.ddns.net:8080/api/devices?user_id=joe";
-        //Device d = deviceDao.secureGetDeviceByUsername(map.get("user_id"));
-        //gson.toJson(d, Device.class);
-        //exchange.getRequestBody()
-        //try (PrintWriter p= new PrintWriter(exchange.getResponseBody())) {
-        //    exchange.sendResponseHeaders(200, s.length());
-        //    p.print(s)
-        //}
-
-
-        System.out.println(uriParts);
+        //System.out.println(uriParts);
         String response = null;
         // TODO: use the query map to narrow the search
         switch (uriParts.size()) { // TODO: try out lambda style
             // root resource
             case 2 -> {
-                Map<String, String> queryMap = Utils.parseQueryString(exchange.getRequestURI().getQuery());
-                response = gson.toJson(APIModel.getDefault(Device.class), Device.class); // TODO: remove this default value
+                try {
+                    exchange.sendResponseHeaders(404, -1);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace(); // TODO: logging
+                }
             }
             // get particular device
             case 3 -> {
-                Device dfault = APIModel.getDefault(Device.class);
-                if (dfault == null) {
+                try {
+                    Map<String, String> queryMap = Utils.parseQueryString(exchange.getRequestURI().getQuery());
                     try {
-                        Utils.sendInternalServerError(exchange);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace(); // TODO: proper logging
+                        Device device = deviceDao.getDeviceBySerial(uriParts.get(2)/*, clientToken*/);
+                        if (device == null) {
+                            exchange.sendResponseHeaders(404, -1);
+                            return;
+                        }
+                        response = APIHandler.GSON.toJson(device, Device.class);
+                    } catch (Exception e) {
+                        exchange.sendResponseHeaders(401, -1);
+                        return;
                     }
-                    return;
+                } catch (IOException ioex) {
+                    ioex.printStackTrace(); // TODO: proper logging
                 }
-                Device particularDevice = new Device(
-                        uriParts.get(2),
-                        dfault.accountID,
-                        dfault.ownerID,
-                        dfault.locationID,
-                        dfault.hvacModelID,
-                        dfault.scheduleID
-                );
-                response = gson.toJson(particularDevice, Device.class);
             }
             // some attribute of a particular device
             case 4 -> response = switch (uriParts.get(3)) {
-                case "schedules" -> gson.toJson(APIModel.getDefault(Schedule.class), Schedule.class);
-                case "costs" -> gson.toJson(APIModel.getDefault(ScheduleCost.class), ScheduleCost.class);
+                case "schedules" -> APIHandler.GSON.toJson(APIModel.getDefault(Schedule.class), Schedule.class);
+                case "costs" -> APIHandler.GSON.toJson(APIModel.getDefault(ScheduleCost.class), ScheduleCost.class);
                 default -> response;
             };
         }

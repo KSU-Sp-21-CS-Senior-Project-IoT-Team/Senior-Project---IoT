@@ -17,12 +17,15 @@ import java.sql.Connection;
 public interface Dao extends Closeable {
     Wrapper<DBConnectionProvider> DB_CONNECTION_PROVIDER = new Wrapper<>(null);
     Wrapper<AuthenticationServiceProvider> security = new Wrapper<>(null);
-    Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().create();
-    Gson GSON = new GsonBuilder().create();
+    Gson GSON_PRETTY = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
+    Gson GSON = new GsonBuilder()
+            .create();
 
     static void setSecurity(AuthenticationServiceProvider provider) throws IOException {
         synchronized (security) {
-            security.val.close();
+            if (security.val != null) security.val.close();
             security.val = provider;
         }
     }

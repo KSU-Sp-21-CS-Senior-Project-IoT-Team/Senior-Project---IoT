@@ -42,21 +42,11 @@ public class AuthenticationServer extends APIHandler {
     private static final String DEFAULT_DB_CFG_LOC = "./config/auth_db_cfg.json";
     private static DBConnectionProvider dbConnectionProvider;
 
-    private final AuthenticationServiceProvider provider;
+    private static AuthenticationServiceProvider provider;
     private static final Gson gson = new GsonBuilder().create();
 
     public AuthenticationServer() {
-        this(new AuthenticationServiceProvider(
-                new Authenticator(),
-                new TokenValidator(),
-                new Registrar(),
-                dbConnectionProvider
-        ));
-    }
-
-    public AuthenticationServer(AuthenticationServiceProvider provider) {
         super(MATCHER);
-        this.provider = provider;
     }
 
     @Override
@@ -73,9 +63,10 @@ public class AuthenticationServer extends APIHandler {
     }
 
     private void doLogin(HttpExchange exchange) {
+        final String authString = exchange.getRequestHeaders().get("Authorization").get(0).split(" ")[1];
         final String[] rawAuthParts = new String(
                 Base64.getDecoder().decode(
-                        exchange.getRequestHeaders().get("Authorization").get(1)
+                        authString
                 ),
                 StandardCharsets.US_ASCII
         ).split(":");
@@ -85,7 +76,11 @@ public class AuthenticationServer extends APIHandler {
                 rawAuthParts[1]
         );
         if (token == null) {
-            // TODO: handle bad login
+            try {
+                exchange.sendResponseHeaders(401, -1);
+            } catch (Exception e) {
+                e.printStackTrace(); // TODO: proper logging
+            }
             return;
         }
 
@@ -113,5 +108,13 @@ public class AuthenticationServer extends APIHandler {
 
     public static void init() throws IOException {
         dbConnectionProvider = new DBConnectionProvider(new File(DEFAULT_DB_CFG_LOC));
+        provider = new AuthenticationServiceProvider(
+                new Authenticator(),
+                new TokenValidator(),
+                new Registrar(),
+                dbConnectionProvider
+        );
     }
+
+    public static AuthenticationServiceProvider getAuthProvider() {return provider;}
 }

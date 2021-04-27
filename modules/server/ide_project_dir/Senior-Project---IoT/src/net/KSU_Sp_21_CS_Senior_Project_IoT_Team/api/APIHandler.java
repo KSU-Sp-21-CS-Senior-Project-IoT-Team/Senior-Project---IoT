@@ -1,5 +1,7 @@
 package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Factory;
 
@@ -18,6 +20,9 @@ import java.util.function.Supplier;
 public abstract class APIHandler implements Comparable<APIHandler>, Closeable {
     protected static final Map<Class<? extends APIHandler>, Supplier<? extends APIHandler>> CHILD_CONS_MAP = new HashMap<>();
     protected static final Map<Class<? extends APIHandler>, Function<String, Boolean>> CHILD_MATCHER_MAP = new HashMap<>();
+
+    public static final Gson GSON = new GsonBuilder().create();
+    public static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().create();
 
     protected final Function<String, Boolean> MATCHER;
 

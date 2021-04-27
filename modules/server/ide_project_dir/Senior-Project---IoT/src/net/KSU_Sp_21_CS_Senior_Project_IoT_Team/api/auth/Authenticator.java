@@ -41,7 +41,7 @@ public class Authenticator {
             );
             final ResultSet rs = query.executeQuery();
             final AccountLoginRecord record = GSON.fromJson(Utils.rsToJSON(rs).get(0), AccountLoginRecord.class);
-
+            //System.out.println(GSON.toJson(record, AccountLoginRecord.class));
             if (security.comparePassword(record.password, password)) {
                 final Token token = security.createToken(record.accountID);
                 //System.out.println("Token: " + GSON.toJson(token, Token.class));
@@ -50,6 +50,7 @@ public class Authenticator {
                 ).execute();
                 return token;
             }
+            //System.out.println("Failed to login.");
         } catch (SQLException sqlException) {
             sqlException.printStackTrace(); // TODO: proper logging
         } catch (Exception e) {

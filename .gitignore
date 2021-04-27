@@ -177,3 +177,7 @@ modules/server/ide_project_dir/Senior-Project---IoT/.idea/httpRequests/http-requ
 modules/server/ide_project_dir/Senior-Project---IoT/.idea/httpRequests/http-client.cookies
 modules/server/ide_project_dir/Senior-Project---IoT/test/TestingRequests.http
 modules/server/ide_project_dir/Senior-Project---IoT/test/TestingRequests.http
+modules/server/ide_project_dir/Senior-Project---IoT/config/auth_db_cfg.json
+modules/server/ide_project_dir/Senior-Project---IoT/out/test/Senior-Project---IoT/requests.http
+modules/server/ide_project_dir/Senior-Project---IoT/test/requests.http
+modules/server/ide_project_dir/Senior-Project---IoT/test/testingcode.java

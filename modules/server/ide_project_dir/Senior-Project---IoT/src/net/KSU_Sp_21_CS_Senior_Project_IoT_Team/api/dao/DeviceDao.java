@@ -2,12 +2,14 @@ package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao;
 
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.InvalidTokenException;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,7 +20,7 @@ public class DeviceDao implements Dao {
         SEC_GET_DEVICE_BY_SERIAL(
                 "select A.* "
                 + "from iot_db.Thermostat_Device as A "
-                + "join iot_db.User as B on A.User_ID = B.User_ID "
+                + "left join iot_db.User as B on A.User_ID = B.User_ID "
                 + "where Serial_Number = ? and (A.Account_ID = ? or B.Account_ID = ?);"
         ),
         GET_DEVICE_BY_SERIAL(
@@ -50,17 +52,25 @@ public class DeviceDao implements Dao {
         }
     }
 
-    public Device secureGetDeviceBySerial(String serial, Token token) {
+    public Device secureGetDeviceBySerial(String serial, Token token) throws InvalidTokenException {
+        //System.out.println(serial);
+        //System.out.println(GSON_PRETTY.toJson(token, Token.class));
         final Connection connection;
-        if ((connection = Dao.getDBConnection(token)) == null) return null;
+        if ((connection = Dao.getDBConnection(token)) == null) throw new InvalidTokenException();
         try {
             final PreparedStatement statement = connection.prepareStatement(Query.SEC_GET_DEVICE_BY_SERIAL.sql);
             statement.setString(1, serial);
             statement.setString(2, token.accountID);
             statement.setString(3, token.accountID);
             final JsonArray jsonResults = Utils.rsToJSON(statement.executeQuery());
+            //System.out.println(jsonResults.size());
+            System.out.println(jsonResults.get(0));
             if (jsonResults.size() == 0) return null;
-            return Dao.GSON.fromJson(jsonResults.get(0), Device.class);
+            System.out.println(jsonResults.get(0).toString());
+            Device d = Dao.GSON.fromJson(jsonResults.get(0).toString(), Device.class);
+            for (Field f : d.getClass().getDeclaredFields())
+                System.out.println(f.getType().getName() + ": " + f.get(d));
+            return Dao.GSON.fromJson(jsonResults.get(0).toString().toLowerCase(), Device.class);
         } catch (Exception e) {
             e.printStackTrace(); // TODO: proper logging
         }
@@ -113,15 +123,23 @@ public class DeviceDao implements Dao {
         return false;
     }
 
-    Device getDeviceBySerial(String serial) {
+    public Device getDeviceBySerial(String serial) {
+        //System.out.println(serial);
+        //System.out.println(GSON_PRETTY.toJson(token, Token.class));
         final Connection connection;
-        if ((connection = Dao.getDBConnection()) == null) return null;
+        connection = Dao.getDBConnection();
         try {
             final PreparedStatement statement = connection.prepareStatement(Query.GET_DEVICE_BY_SERIAL.sql);
             statement.setString(1, serial);
             final JsonArray jsonResults = Utils.rsToJSON(statement.executeQuery());
+            //System.out.println(jsonResults.size());
+            System.out.println(jsonResults.get(0));
             if (jsonResults.size() == 0) return null;
-            return Dao.GSON.fromJson(jsonResults.get(0), Device.class);
+            System.out.println(jsonResults.get(0).toString());
+            Device d = Dao.GSON.fromJson(jsonResults.get(0).toString(), Device.class);
+            for (Field f : d.getClass().getDeclaredFields())
+                System.out.println(f.getType().getName() + ": " + f.get(d));
+            return Dao.GSON.fromJson(jsonResults.get(0).toString().toLowerCase(), Device.class);
         } catch (Exception e) {
             e.printStackTrace(); // TODO: proper logging
         }
