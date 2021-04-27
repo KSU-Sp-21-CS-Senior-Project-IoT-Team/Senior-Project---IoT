@@ -15,6 +15,7 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -54,81 +55,146 @@ public class DeviceHandler extends APIHandler {
     // TODO: implement
     @Override
     public void doGET(HttpExchange exchange) {
+        //START for Josh Yang
         List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
 
-        // Utils.parseQueryString(exchange.getRequestURI().getQuery())
-        //String token = exchange.getRequestHeaders().getFirst("token");
-        //gson.fromJson();
-        //"sabernet.ddns.net:8080/api/devices?user_id=joe";
-        //Device d = deviceDao.secureGetDeviceByUsername(map.get("user_id"));
-        //gson.toJson(d, Device.class);
-        //exchange.getRequestBody()
-        //try (PrintWriter p= new PrintWriter(exchange.getResponseBody())) {
-        //    exchange.sendResponseHeaders(200, s.length());
-        //    p.print(s)
-        //}
-
-
-        System.out.println(uriParts);
         String response = null;
-        // TODO: use the query map to narrow the search
-        switch (uriParts.size()) { // TODO: try out lambda style
-            // root resource
+        switch (uriParts.size()) {
+            // /devices
             case 2 -> {
-                Map<String, String> queryMap = Utils.parseQueryString(exchange.getRequestURI().getQuery());
-                response = gson.toJson(APIModel.getDefault(Device.class), Device.class); // TODO: remove this default value
+
             }
-            // get particular device
+            // /devices/{serial}
             case 3 -> {
-                Device dfault = APIModel.getDefault(Device.class);
-                if (dfault == null) {
+                //changed getDeviceBySerial() to public so I don't have to use secureGetDeviceBySerial().
+                //have to change getDeviceBySerial() to secureGetDeviceBySerial().
+                Device device = deviceDao.getDeviceBySerial(uriParts.get(3));
+
+                if (device == null) {
                     try {
                         Utils.sendInternalServerError(exchange);
                     } catch (IOException ioException) {
-                        ioException.printStackTrace(); // TODO: proper logging
+                        ioException.printStackTrace();
                     }
                     return;
                 }
-                Device particularDevice = new Device(
-                        uriParts.get(2),
-                        dfault.accountID,
-                        dfault.ownerID,
-                        dfault.locationID,
-                        dfault.hvacModelID,
-                        dfault.scheduleID
-                );
-                response = gson.toJson(particularDevice, Device.class);
+
+                response = gson.toJson(device, Device.class);
             }
-            // some attribute of a particular device
-            case 4 -> response = switch (uriParts.get(3)) {
-                case "schedules" -> gson.toJson(APIModel.getDefault(Schedule.class), Schedule.class);
-                case "costs" -> gson.toJson(APIModel.getDefault(ScheduleCost.class), ScheduleCost.class);
-                default -> response;
-            };
+            // /devices/{serial}/schedules
+            // getScedules() is a dummy function for secureGetSchedules()
+            case 4 -> {
+                List<Schedule> schedule = scheduleDao.GetSchedules(uriParts.get(3), true);
+                if (schedule == null) {
+                    try {
+                        Utils.sendInternalServerError(exchange);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    return;
+                }
+
+                response = gson.toJson(schedule);
+            }
         }
+
+            try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+                if (response != null) {
+                    exchange.sendResponseHeaders(200, response.length());
+                    out.print(response);
+                } else {
+                    exchange.sendResponseHeaders(400, -1); // bad request
+                }
+            } catch (IOException ioex) {
+                ioex.printStackTrace(); // TODO: proper logging
+            }
+        }
+        //END for Josh Yang
+
+    // START Example by Andrew
+//        String response = null;
+//        // TODO: use the query map to narrow the search
+//        switch (uriParts.size()) { // TODO: try out lambda style
+//            // root resource
+//            // /devices: returns devices owned by a user
+//            case 2 -> {
+//                Map<String, String> queryMap = Utils.parseQueryString(exchange.getRequestURI().getQuery());
+//                response = gson.toJson(APIModel.getDefault(Device.class), Device.class); // TODO: remove this default value
+//            }
+//            // get particular device
+//            // /devices/{serial}: returns attributes of the given device
+//            case 3 -> {
+//                Device dfault = APIModel.getDefault(Device.class);
+//                if (dfault == null) {
+//                    try {
+//                        Utils.sendInternalServerError(exchange);
+//                    } catch (IOException ioException) {
+//                        ioException.printStackTrace(); // TODO: proper logging
+//                    }
+//                    return;
+//                }
+//                Device particularDevice = new Device(
+//                        uriParts.get(2),
+//                        dfault.accountID,
+//                        dfault.ownerID,
+//                        dfault.locationID,
+//                        dfault.hvacModelID,
+//                        dfault.scheduleID
+//                );
+//                response = gson.toJson(particularDevice, Device.class);
+//            }
+//            // some attribute of a particular device
+//            // /devices/{serial}/schedules or /devices/{serial}/costs
+//            case 4 -> response = switch (uriParts.get(3)) {
+//                case "schedules" -> gson.toJson(APIModel.getDefault(Schedule.class), Schedule.class);
+//                case "costs" -> gson.toJson(APIModel.getDefault(ScheduleCost.class), ScheduleCost.class);
+//                default -> response;
+//            };
+//        }
+//        try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+//            if (response != null) {
+//                exchange.sendResponseHeaders(200, response.length());
+//                out.print(response);
+//            } else {
+//                exchange.sendResponseHeaders(400, -1); // bad request
+//            }
+//        } catch (IOException ioex) {
+//            ioex.printStackTrace(); // TODO: proper logging
+//        }
+//    }
+    // END Example by Andrew
+
+    // TODO: implement
+    @Override
+    public void doPOST(HttpExchange exchange) {
+        //START for Josh Yang
+        List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
+        String response = null;
+        // TODO: actually use the DAOs
+        switch (uriParts.size()){
+            // /devices/{serial}/schedules
+            case 4 -> {
+                // getSchedules is a dummy function for secureGetSchedules.
+                List<Schedule> schedule = scheduleDao.GetSchedules(uriParts.get(3), true);
+                // CreateSchedule is a dummy function for secureCreateSchedule().
+                scheduleDao.CreateSchedule(schedule);
+
+                response = gson.toJson(schedule);
+            }
+
+        }
+
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
             if (response != null) {
                 exchange.sendResponseHeaders(200, response.length());
                 out.print(response);
             } else {
-                exchange.sendResponseHeaders(400, -1); // bad request
+                exchange.sendResponseHeaders(400, -1);
             }
         } catch (IOException ioex) {
-            ioex.printStackTrace(); // TODO: proper logging
+            ioex.printStackTrace();
         }
-    }
-
-    // TODO: implement
-    @Override
-    public void doPOST(HttpExchange exchange) {
-        List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
-        String response = null;
-        // TODO: actually use the DAOs
-        try {
-            exchange.sendResponseHeaders(200, -1);
-        } catch (IOException ioex) {
-            ioex.printStackTrace(); // TODO: proper logging
-        }
+        //END for Josh Yang
     }
 
     @Override

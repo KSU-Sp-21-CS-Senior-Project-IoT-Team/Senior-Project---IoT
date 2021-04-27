@@ -16,6 +16,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DeviceDao implements Dao {
+
+    // dummy function.
+    public Device getDevicesByUserID(String s) {
+        return null;
+    }
+
     private enum Query {
         SEC_GET_DEVICE_BY_SERIAL(
                 "select A.* "
@@ -122,10 +128,8 @@ public class DeviceDao implements Dao {
         }
         return false;
     }
-
+    //JY changed it to public since the token has to be used for secureGetDeviceBySerial. Have to change to not public.
     public Device getDeviceBySerial(String serial) {
-        //System.out.println(serial);
-        //System.out.println(GSON_PRETTY.toJson(token, Token.class));
         final Connection connection;
         connection = Dao.getDBConnection();
         try {
