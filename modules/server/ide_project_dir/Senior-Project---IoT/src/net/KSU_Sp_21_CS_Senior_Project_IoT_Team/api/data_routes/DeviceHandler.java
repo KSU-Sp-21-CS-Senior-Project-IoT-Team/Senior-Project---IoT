@@ -7,17 +7,13 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.DeviceDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleCostDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleDao;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.APIModel;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.ScheduleCost;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -68,7 +64,7 @@ public class DeviceHandler extends APIHandler {
             case 3 -> {
                 //changed getDeviceBySerial() to public so I don't have to use secureGetDeviceBySerial().
                 //have to change getDeviceBySerial() to secureGetDeviceBySerial().
-                Device device = deviceDao.getDeviceBySerial(uriParts.get(3));
+                Device device = deviceDao.getDeviceBySerial(uriParts.get(2));
 
                 if (device == null) {
                     try {
@@ -84,7 +80,7 @@ public class DeviceHandler extends APIHandler {
             // /devices/{serial}/schedules
             // getScedules() is a dummy function for secureGetSchedules()
             case 4 -> {
-                List<Schedule> schedule = scheduleDao.GetSchedules(uriParts.get(3), true);
+                List<Schedule> schedule = scheduleDao.getSchedules(uriParts.get(2), true);
                 if (schedule == null) {
                     try {
                         Utils.sendInternalServerError(exchange);
@@ -175,9 +171,9 @@ public class DeviceHandler extends APIHandler {
             // /devices/{serial}/schedules
             case 4 -> {
                 // getSchedules is a dummy function for secureGetSchedules.
-                List<Schedule> schedule = scheduleDao.GetSchedules(uriParts.get(3), true);
+                List<Schedule> schedule = scheduleDao.getSchedules(uriParts.get(3), true);
                 // CreateSchedule is a dummy function for secureCreateSchedule().
-                scheduleDao.CreateSchedule(schedule);
+                scheduleDao.createSchedule(schedule);
 
                 response = gson.toJson(schedule);
             }

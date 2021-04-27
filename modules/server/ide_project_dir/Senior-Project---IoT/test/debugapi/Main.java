@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.AuthenticationServer;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.Dao;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.data_routes.DeviceHandler;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.data_routes.UserHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class Main {
 
             server.registerHandlerClass(AuthenticationServer.class);
             server.registerHandlerClass(DeviceHandler.class);
+            server.registerHandlerClass(UserHandler.class);
 
             System.out.println("Starting server...");
             httpServer.start();

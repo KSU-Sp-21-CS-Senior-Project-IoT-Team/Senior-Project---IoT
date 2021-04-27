@@ -26,7 +26,7 @@ public class UserHandler extends APIHandler {
          *
          * Otherwise, just make sure the bottom few lines have the name of this class.
          */
-        final Pattern pattern = PATTERN = Pattern.compile("/api/users(/[\\da-f\\-]+(/devices)?)?");
+        final Pattern pattern = PATTERN = Pattern.compile("/api/users(/[\\da-zA-Z0-9\\-_]+(/devices)?)?");
 
         final Function<String, Boolean> matcher = MATCHER = s -> pattern.matcher(s).matches();
         APIHandler.CHILD_MATCHER_MAP.put(UserHandler.class, matcher);
@@ -57,7 +57,7 @@ public class UserHandler extends APIHandler {
         switch (uriParts.size()){
             // /users/{user_id}/devices
             case 4 -> {
-                Device device = deviceDao.getDevicesByUserID(uriParts.get(3));
+                Device device = deviceDao.getDevicesByUserID(uriParts.get(2));
 
                 if (device == null) {
                     try {
@@ -67,7 +67,7 @@ public class UserHandler extends APIHandler {
                     }
                     return;
                 }
-
+                System.out.println(response);
                 response = gson.toJson(device);
             }
         }

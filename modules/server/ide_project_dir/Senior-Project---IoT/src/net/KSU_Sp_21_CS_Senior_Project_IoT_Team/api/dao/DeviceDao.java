@@ -16,12 +16,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DeviceDao implements Dao {
-
-    // dummy function.
-    public Device getDevicesByUserID(String s) {
-        return null;
-    }
-
     private enum Query {
         SEC_GET_DEVICE_BY_SERIAL(
                 "select A.* "
@@ -31,6 +25,9 @@ public class DeviceDao implements Dao {
         ),
         GET_DEVICE_BY_SERIAL(
                 "select * from iot_db.Thermostat_Device where Serial_Number = ?"
+        ),
+        GET_DEVICE_BY_USERNAME(
+                "select * from iot_db.Thermostat_Device where User_ID = ?;"
         ),
 
         SEC_SET_DEVICE_ATTRIBUTES__MASTER(
@@ -135,6 +132,28 @@ public class DeviceDao implements Dao {
         try {
             final PreparedStatement statement = connection.prepareStatement(Query.GET_DEVICE_BY_SERIAL.sql);
             statement.setString(1, serial);
+            final JsonArray jsonResults = Utils.rsToJSON(statement.executeQuery());
+            //System.out.println(jsonResults.size());
+            System.out.println(jsonResults.get(0));
+            if (jsonResults.size() == 0) return null;
+            System.out.println(jsonResults.get(0).toString());
+            Device d = Dao.GSON.fromJson(jsonResults.get(0).toString(), Device.class);
+            for (Field f : d.getClass().getDeclaredFields())
+                System.out.println(f.getType().getName() + ": " + f.get(d));
+            return Dao.GSON.fromJson(jsonResults.get(0).toString().toLowerCase(), Device.class);
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO: proper logging
+        }
+        return null;
+    }
+
+    // dummy function.
+    public Device getDevicesByUserID(String s) {
+        final Connection connection;
+        connection = Dao.getDBConnection();
+        try {
+            final PreparedStatement statement = connection.prepareStatement(Query.GET_DEVICE_BY_USERNAME.sql);
+            statement.setString(1, s);
             final JsonArray jsonResults = Utils.rsToJSON(statement.executeQuery());
             //System.out.println(jsonResults.size());
             System.out.println(jsonResults.get(0));
