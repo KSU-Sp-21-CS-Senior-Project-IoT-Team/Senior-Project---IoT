@@ -13,6 +13,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ScheduleDao implements Dao {
+
+    //dummy function for secureGetSchedule bc idk how to use it with the token
+    public List<Schedule> GetSchedules(String s, boolean b) {
+        return null;
+    }
+    //dummy function for secureCreateSchedule bc idk how to use it with the token
+    public void CreateSchedule(List<Schedule> schedule) {
+    }
+
     private enum Query {
         SEC_GET_ACTIVE_SCHEDULE(
                 "select A.* "
@@ -57,7 +66,7 @@ public class ScheduleDao implements Dao {
         return null;
     }
 
-    boolean secureCreateSchedule(Schedule schedule, Token token) {
+    public boolean secureCreateSchedule(Schedule schedule, Token token) {
         return false; // TODO: implement
     }
 
