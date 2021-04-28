@@ -173,7 +173,7 @@ public class DeviceHandler extends APIHandler {
                 // getSchedules is a dummy function for secureGetSchedules.
                 List<Schedule> schedule = scheduleDao.getSchedules(uriParts.get(3), true);
                 // CreateSchedule is a dummy function for secureCreateSchedule().
-                scheduleDao.createSchedule(schedule);
+                //scheduleDao.createSchedule(schedule);
 
                 response = gson.toJson(schedule);
             }

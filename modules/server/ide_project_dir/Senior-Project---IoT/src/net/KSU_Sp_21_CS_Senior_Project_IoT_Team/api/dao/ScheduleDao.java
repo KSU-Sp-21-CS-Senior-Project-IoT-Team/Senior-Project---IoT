@@ -37,6 +37,16 @@ public class ScheduleDao implements Dao {
                 + "from iot_db.Schedule as A "
                 + "join iot_db.Thermostat_Device as B on A.Schedule_ID = B.Active_Schedule "
                 + "where B.Serial_Number = ?;"
+        ),
+
+        NEW_SCHEDULE(
+                "insert into iot_db.Schedule values (?, ?);"
+        ),
+        SET_ACTIVE_SCHEDULE(
+                "update iot_db.Thermostat_Device set Active_Schedule = ? where Serial_Number = ?;"
+        ),
+        GET_SCHEDULE_ID_BY_DATA(
+                "select Schedule_ID from iot_db.Schedule where Device_Serial = ? and Schedule_Data = ?;"
         )
         ;
         public final String sql;
@@ -74,8 +84,24 @@ public class ScheduleDao implements Dao {
         return null;
     }
     //dummy function for secureCreateSchedule bc idk how to use it with the token
-    public void createSchedule(Schedule schedule) {
+    public boolean createSchedule(Schedule schedule) {
+        final Connection connection;
+        if ((connection = Dao.getDBConnection()) == null) return false;
+        try {
+            final PreparedStatement statement = connection.prepareStatement(
+                    Query.NEW_SCHEDULE.sql
+            );
 
+            statement.setString(1, schedule.scheduleData);
+            statement.setString(2, schedule.deviceSerial);
+
+            final JsonArray json = Utils.rsToJSON(statement.executeQuery());
+            if (json.size() == 0) return false;
+            return GSON.fromJson(json, new TypeToken<List<Schedule>>() {}.getType()); // use this syntax for lists
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace(); // TODO: proper logging
+        }
+        return false;
     }
 
     List<Schedule> secureGetSchedules(String serial, boolean onlyActive, Token token) {
