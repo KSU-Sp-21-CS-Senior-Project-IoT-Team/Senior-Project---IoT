@@ -78,17 +78,17 @@ public class DeviceHandler extends APIHandler {
                 response = gson.toJson(device, Device.class);
             }
             // /devices/{serial}/schedules
-            // getScedules() is a dummy function for secureGetSchedules()
             case 4 -> {
-                List<Schedule> schedule = scheduleDao.getSchedules(uriParts.get(2), true);
-                if (schedule == null) {
-                    try {
-                        Utils.sendInternalServerError(exchange);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    return;
+                Schedule schedule = null;
+                // getSchedules is a dummy function for secureGetSchedules.
+                try (InputStreamReader inputByUser = new InputStreamReader(exchange.getRequestBody())) {
+                    schedule = gson.fromJson(inputByUser, Schedule.class);
+                } catch (IOException ioex) {
+                    ioex.printStackTrace();
                 }
+
+                // CreateSchedule is a dummy function for secureCreateSchedule().
+                scheduleDao.CreateSchedule(schedule);
 
                 response = gson.toJson(schedule);
             }
