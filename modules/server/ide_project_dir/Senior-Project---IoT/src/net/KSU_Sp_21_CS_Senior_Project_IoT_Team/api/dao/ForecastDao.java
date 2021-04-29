@@ -8,15 +8,28 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.List;
 
 public class ForecastDao implements Dao {
     enum Query {
+        GET_CUR_FORECAST(
+                "select * from Weather_Forecast WF join Location L on L.Location_ID = WF.Location_ID where WF.Location_ID = ?;"
+        ),
+        DEL_FORECAST(
+                "delete from Weather_Forecast where Forecast_ID = ?;"
+        ),
+        ADD_FORECAST(
+                "insert into Weather_Forecast (Date, Data_From_API, Location_ID) values (?, ?, ?);"
+        )
         ;
         public final String sql;
 
@@ -25,7 +38,7 @@ public class ForecastDao implements Dao {
         }
     }
 
-    private static final long FORECAST_CACHE_LIFETIME = 43200000;
+    private static final long FORECAST_CACHE_LIFETIME = 7200000;
 
     public Forecast getForecastByLocation(Location location) {
         final Connection connection;
@@ -40,16 +53,39 @@ public class ForecastDao implements Dao {
             statement.setString(3, location.country);
 
             final JsonArray json = Utils.rsToJSON(statement.executeQuery());
+            Forecast forecast;
             if (json.size() == 0) {
                 // we don't have a forecast cached
+                String query = queryWeatherAPI(location);
+                if (query == null) return null;
+                // create new
+                forecast = new Forecast(
+                        0, System.currentTimeMillis(), query, location.LocationID
+                );
+                PreparedStatement addForecast = connection.prepareStatement(Query.ADD_FORECAST.sql);
+                addForecast.setLong(1, forecast.date);
+                addForecast.setString(2, forecast.dataJSON);
+                addForecast.setInt(3, forecast.locationID);
+                addForecast.execute();
             }
 
-            Forecast forecast = GSON.fromJson(json, Forecast.class);
+            forecast = GSON.fromJson(json, Forecast.class);
             if (forecast.date < System.currentTimeMillis() + FORECAST_CACHE_LIFETIME) {
+                String query = queryWeatherAPI(location);
+                if (query == null) return null;
+                // remove old
+                PreparedStatement remForecast = connection.prepareStatement(Query.DEL_FORECAST.sql);
+                remForecast.setInt(1, forecast.forecastID);
+                remForecast.execute();
+                // create new
                 forecast = new Forecast(
-                        0, System.currentTimeMillis(), queryWeatherAPI(location), location.LocationID
+                        0, System.currentTimeMillis(), query, location.LocationID
                 );
-                // insert into database
+                PreparedStatement addForecast = connection.prepareStatement(Query.ADD_FORECAST.sql);
+                addForecast.setLong(1, forecast.date);
+                addForecast.setString(2, forecast.dataJSON);
+                addForecast.setInt(3, forecast.locationID);
+                addForecast.execute();
             }
 
             return forecast;
@@ -73,6 +109,24 @@ public class ForecastDao implements Dao {
                         )
                 ))
                 .build();
+        try {
+            return HttpClient.newBuilder()
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .authenticator(Authenticator.getDefault())
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString())
+                    .body();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int extractTempFromForecast(Forecast forecast) {
+        return -1;
     }
 
     @Override

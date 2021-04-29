@@ -3,8 +3,7 @@ package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.*;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
@@ -12,11 +11,11 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ScheduleDao implements Dao {
+    private static final double BUDGET_TEMP_TOLERANCE = 2;
+
     private enum Query {
         SEC_GET_ACTIVE_SCHEDULE(
                 "select A.* "
@@ -37,6 +36,10 @@ public class ScheduleDao implements Dao {
                 + "from iot_db.Schedule as A "
                 + "join iot_db.Thermostat_Device as B on A.Schedule_ID = B.Active_Schedule "
                 + "where B.Serial_Number = ?;"
+        ),
+
+        GET_SCHEDULE_BY_SERIAL(
+                "select * from Schedule S join Thermostat_Device TD on S.Schedule_ID = TD.Active_Schedule where Serial_Number = ?;"
         ),
 
         NEW_SCHEDULE(
@@ -83,6 +86,52 @@ public class ScheduleDao implements Dao {
         }
         return null;
     }
+
+    public SimpleSchedule getScheduleByDevice(String serial) {
+        final Connection connection;
+        if ((connection = Dao.getDBConnection()) == null) return null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(Query.GET_SCHEDULE_BY_SERIAL.sql);
+            statement.setString(1, serial);
+            JsonArray results = Utils.rsToJSON(statement.executeQuery());
+            if (results.size() == 0) return null;
+            Schedule schedule = Dao.GSON.fromJson(results.get(0), Schedule.class);
+            ScheduleData data = Dao.GSON.fromJson(schedule.scheduleData, ScheduleData.class);
+            SimpleSchedule result = null;
+            if (data.isBudget) {
+                // handle the new feature
+                // get location of thermostat
+                PreparedStatement locQuery = connection.prepareStatement(Query.GET_LOCATION_BY_SERIAL.sql);
+                locQuery.setString(1, serial);
+                JsonArray locRes = Utils.rsToJSON(locQuery.executeQuery());
+                if (locRes.size() == 0) return null;
+                Location location = Dao.GSON.fromJson(locRes, Location.class);
+                // get forecast first
+                Forecast forecast = new ForecastDao().getForecastByLocation(location);
+                // decide on the mode
+                int temperature = ForecastDao.extractTempFromForecast(forecast);
+                // assume that first element is threshold
+                if (temperature < data.temperatures[0]) {
+                    result = new SimpleSchedule(data.temperatures[1], "heat"); // for heat, second element is minimum
+                } else {
+                    result = new SimpleSchedule(data.temperatures[2], "cool"); // for cool, third element is maximum
+                }
+                // format new simpleschedule
+            } else {
+                // no special handling, just wrap it up in simple schedule and return
+                Map<Long, Integer> temperatures = new HashMap<>();
+                result = new SimpleSchedule(
+                        data.temperatures[(int)(System.currentTimeMillis() % 86400000) / 1800000],
+                        "auto"
+                );
+            }
+            return result;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
     //dummy function for secureCreateSchedule bc idk how to use it with the token
     public boolean createSchedule(Schedule schedule) {
         final Connection connection;

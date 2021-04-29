@@ -16,7 +16,7 @@ public class Forecast implements APIModel {
     public final Integer forecastID;
 
     @SerializedName("date")
-    public final Integer date;
+    public final Long date;
 
     @SerializedName("data_from_api")
     public final String dataJSON;
@@ -25,7 +25,7 @@ public class Forecast implements APIModel {
     public final Integer locationID;
 
 
-    public Forecast(Integer forecastID, Integer date, String dataJSON, Integer locationID) {
+    public Forecast(Integer forecastID, long date, String dataJSON, Integer locationID) {
         this.forecastID = forecastID;
         this.date = date;
         this.dataJSON = dataJSON;
