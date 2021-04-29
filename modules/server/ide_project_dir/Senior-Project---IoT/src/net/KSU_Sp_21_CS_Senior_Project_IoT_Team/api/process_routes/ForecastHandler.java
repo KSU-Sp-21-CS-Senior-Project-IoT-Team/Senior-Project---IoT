@@ -38,7 +38,6 @@ public class ForecastHandler extends APIHandler {
     @Override
     public void doGET(HttpExchange exchange) {
         // TODO: Josh
-
     }
 
     @Override

@@ -9,14 +9,13 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.DBConnectionProvider;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Wrapper;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 
 public interface Dao extends Closeable {
     Wrapper<DBConnectionProvider> DB_CONNECTION_PROVIDER = new Wrapper<>(null);
     Wrapper<AuthenticationServiceProvider> security = new Wrapper<>(null);
+    Wrapper<ExternalAPIServiceConfig> weatherAPIConfig = new Wrapper<>(null);
     Gson GSON_PRETTY = new GsonBuilder()
             .setPrettyPrinting()
             .create();
@@ -59,5 +58,43 @@ public interface Dao extends Closeable {
 
     static Connection getDBConnection(Token token) {
         return getSecurity().validate(token) != ValidationResult.AUTHORIZED ? null : getDBConnection();
+    }
+
+    static ExternalAPIServiceConfig getWeatherAPIConfig() {
+        synchronized (weatherAPIConfig) {
+            return weatherAPIConfig.val;
+        }
+    }
+
+    static ExternalAPIServiceConfig setWeatherAPIKey(ExternalAPIServiceConfig key) {
+        ExternalAPIServiceConfig old;
+        synchronized (weatherAPIConfig) {
+            old = weatherAPIConfig.val;
+            weatherAPIConfig.val = key;
+        }
+        return old;
+    }
+
+    static ExternalAPIServiceConfig setWeatherAPIKey(File cfg) {
+        ExternalAPIServiceConfig old;
+        ExternalAPIServiceConfig nue = null;
+        try (FileReader fileReader = new FileReader(cfg)) {
+            ExternalAPIServiceConfig config = GSON.fromJson(fileReader, ExternalAPIServiceConfig.class);
+            if (config != null)
+                nue = config;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        synchronized (weatherAPIConfig) {
+            old = weatherAPIConfig.val;
+            if (nue != null) {
+                weatherAPIConfig.val = nue;
+            }
+        }
+
+        return old;
     }
 }

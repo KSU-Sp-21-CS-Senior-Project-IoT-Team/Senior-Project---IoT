@@ -181,3 +181,4 @@ modules/server/ide_project_dir/Senior-Project---IoT/config/auth_db_cfg.json
 modules/server/ide_project_dir/Senior-Project---IoT/out/test/Senior-Project---IoT/requests.http
 modules/server/ide_project_dir/Senior-Project---IoT/test/requests.http
 modules/server/ide_project_dir/Senior-Project---IoT/test/testingcode.java
+modules/server/ide_project_dir/Senior-Project---IoT/config/extern_services_cfg.json
