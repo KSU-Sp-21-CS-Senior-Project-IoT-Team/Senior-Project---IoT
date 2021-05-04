@@ -1,4 +1,4 @@
-﻿
+
 body {
     background-color: darkgray
 }
@@ -48,11 +48,15 @@ body {
 
 }
 
+.form button:hover,.form button:active{
+   background:blue;
+}
+
 h1 {
     border: 5px solid black;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 42px;
-    position: absolute;
+    position: center;
     top: 0%;
     left: 13%;
 }
@@ -75,15 +79,6 @@ h3 {
     top: 52%;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 36px;
-}
-
-h4{
-  border: 5px solid black;
-  width: fit-content;
-  margin-left: 42%;
-  text-align: center;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 56px;
 }
 
 #horizontalLine {
@@ -210,44 +205,6 @@ p3 {
     display: inline;
 }
 
-.days{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 35px;
-  display: flex;
-}
-
-.column {
-  margin: 30px;
-  margin-right: 40px;
-  padding: 20px;
-  font-size: 30px;
-}
-
-mark{
-  background-color: lightblue;
-  color: black;
-}
-
-.forecast{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.location{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 24px;
-}
-
-.description{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 36px;
-}
-
-.highLow{
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 46px;
-}
 .topnav{
     background-color: #333;
     overflow: hidden;
@@ -262,139 +219,11 @@ mark{
     font-size: 17px;
 }
 
-.fancy {
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 18px;
-  display:inline-block;
-  text-shadow: 3px 3px 6px black;
-  /* Same trick as previously used to make circles */
-  box-sizing: border-box;
-  width     : 150px;
-  height    : 150px;
-  padding   : 50px 1em 0 1em;
 
-  /* We make room for the "ears" of our cloud */
-  margin    : 0 175px;
 
-  position: relative;
-
-  background-color: rgb(149, 207, 216);
-  color: white;
-  /* Well, actually we are not making a full circle
-     as we want the bottom of our cloud to be flat.
-     Feel free to tweak this example to make a cloud
-     that isn't flat at the bottom ;) */
-  border-radius: 100% 100% 0 0;
-}
-
-/* Those are common style that apply to both our ::before
-   and ::after pseudo elements. */
-.fancy::before,
-.fancy::after {
-  /* This is required to be allowed to display the
-     pseudo-elements, event if the value is an empty
-     string */
-  content: '';
-
-  /* We position our pseudo-elements on the left and
-     right sides of the box, but always at the bottom */
-  position: absolute;
-  bottom  : 0;
-
-  /* This makes sure our pseudo-elements will be below
-     the box content whatever happens. */
-  z-index : -1;
-
-  background-color: #A4C9CF;
-  border-radius: 100%;
-}
-
-.fancy::before {
-  /* This is the  size of the clouds left ear */
-  width  : 125px;
-  height : 125px;
-
-  /* We slightly move it to the left */
-  left    : -80px;
-
-  /* To make sure that the bottom of the cloud
-     remains flat, we must make the bottom right
-     corner of the left ear square. */
-  border-bottom-right-radius: 0;
-}
-
-.fancy::after {
-  /* This is the size of the clouds left ear */
-  width  : 100px;
-  height : 100px;
-
-  /* We slightly move it to the right */
-  right   : -60px;
-
-  /* To make sure that the bottom of the cloud
-     remains flat, we must make the bottom left
-     corner of the right ear square. */
-  border-bottom-left-radius: 0;
-}
-
-p4{
-  font-size: 22px;
-  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  border: 5px solid gray;
-  font-weight: bold;
-  background-color: floralwhite;
-  margin-top: -20px;
-  text-shadow: 2px 2px 5px gray;
-}
-
-.settings{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 22px;
-  font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  background-color: rgb(192, 231, 236);
-  width: 25%;
-  border-radius: 12px;
-  margin-left: 35%;
-  padding: 30px;
-  box-shadow: 5px 5px 30px 5px gray;
-
- }
-
- input[type=text] {
-  padding: 10px;
-  border-radius:10px;
-  border:0;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-  width:35%;
-  background-color: white;
- }
-
- input[type=submit] {
-  padding: 20px;
-  border:none;
-  background-color: #333;
-  color:#fff;
-  font-weight:600;
-  border-radius:5px;
-  width:50%;
-  box-shadow: 0 0 12px gray;
-}
-
-.regchoices{
-    background-color: #333;
-    overflow: hidden;
-
-}
 
 .regchoices button{
-    background-color: white;
+    background-color: blue;
     position: relative;
 }
 
@@ -421,12 +250,225 @@ p4{
 }
 
 .regchoices{
-    position: relative;
+    position: absolute;
     text-align: center;
-    width: 360px;
-    padding: 10% 0 0;
+    top: 400px;
+    right: 1000px;
+    width: 400px;
+    padding: 100% 100 100;
     margin: auto;
     background-color:white;
    
 
 }
+.fancy {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 18px;
+    display:inline-block;
+    text-shadow: 3px 3px 6px black;
+    /* Same trick as previously used to make circles */
+    box-sizing: border-box;
+    width     : 150px;
+    height    : 150px;
+    padding   : 50px 1em 0 1em;
+  
+    /* We make room for the "ears" of our cloud */
+    margin    : 0 175px;
+  
+    position: relative;
+  
+    background-color: rgb(149, 207, 216);
+    color: white;
+    /* Well, actually we are not making a full circle
+       as we want the bottom of our cloud to be flat.
+       Feel free to tweak this example to make a cloud
+       that isn't flat at the bottom ;) */
+    border-radius: 100% 100% 0 0;
+  }
+  
+  /* Those are common style that apply to both our ::before
+     and ::after pseudo elements. */
+  .fancy::before,
+  .fancy::after {
+    /* This is required to be allowed to display the
+       pseudo-elements, event if the value is an empty
+       string */
+    content: '';
+  
+    /* We position our pseudo-elements on the left and
+       right sides of the box, but always at the bottom */
+    position: absolute;
+    bottom  : 0;
+  
+    /* This makes sure our pseudo-elements will be below
+       the box content whatever happens. */
+    z-index : -1;
+  
+    background-color: #A4C9CF;
+    border-radius: 100%;
+  }
+  
+  .fancy::before {
+    /* This is the  size of the clouds left ear */
+    width  : 125px;
+    height : 125px;
+  
+    /* We slightly move it to the left */
+    left    : -80px;
+  
+    /* To make sure that the bottom of the cloud
+       remains flat, we must make the bottom right
+       corner of the left ear square. */
+    border-bottom-right-radius: 0;
+  }
+  
+  .fancy::after {
+    /* This is the size of the clouds left ear */
+    width  : 100px;
+    height : 100px;
+  
+    /* We slightly move it to the right */
+    right   : -60px;
+  
+    /* To make sure that the bottom of the cloud
+       remains flat, we must make the bottom left
+       corner of the right ear square. */
+    border-bottom-left-radius: 0;
+  }
+  
+  p4{
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 5px solid gray;
+    font-weight: bold;
+    background-color: floralwhite;
+    margin-top: -20px;
+    text-shadow: 2px 2px 5px gray;
+  }
+  h4{
+    border: 5px solid black;
+    width: fit-content;
+    margin-left: 38%;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 56px;
+  }
+  
+h5{
+    border: 5px solid black;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2%;
+  }
+  
+  .settings{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: rgb(192, 231, 236);
+    width: 25%;
+    border-radius: 12px;
+    margin-left: 35%;
+    padding: 30px;
+    box-shadow: 5px 5px 30px 5px gray;
+  
+   }
+
+   .highLow{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 46px;
+  }
+
+  
+.description{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 36px;
+  }
+
+  .forecast{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .RegisteredDevices button{
+    
+  }
+
+  .regchoices button{
+    font-family: "Roboto",sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: white;
+    font-size:14px; 
+    cursor: pointer;
+  }
+
+  .devManagement button{
+    font-family: "Roboto",sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: white;
+    font-size:14px; 
+    cursor: pointer;
+  }
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
