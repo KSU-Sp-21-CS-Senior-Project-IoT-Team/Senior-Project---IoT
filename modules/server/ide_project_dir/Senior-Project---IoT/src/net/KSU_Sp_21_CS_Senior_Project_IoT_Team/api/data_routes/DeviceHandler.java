@@ -9,9 +9,11 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleCostDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.SimpleSchedule;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.function.Function;
@@ -79,23 +81,18 @@ public class DeviceHandler extends APIHandler {
             }
             // /devices/{serial}/schedules
             case 4 -> {
-                Schedule schedule = null;
-                // getSchedules is a dummy function for secureGetSchedules.
-                try (InputStreamReader inputByUser = new InputStreamReader(exchange.getRequestBody())) {
-                    schedule = gson.fromJson(inputByUser, Schedule.class);
-                } catch (IOException ioex) {
-                    ioex.printStackTrace();
-                }
+                SimpleSchedule schedule = scheduleDao.getScheduleByDevice(uriParts.get(2));
+                System.out.println(schedule);
 
-                // CreateSchedule is a dummy function for secureCreateSchedule().
-                scheduleDao.CreateSchedule(schedule);
 
-                response = gson.toJson(schedule);
+                response = gson.toJson(schedule, SimpleSchedule.class);
             }
         }
 
             try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
                 if (response != null) {
+                    exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
                     exchange.sendResponseHeaders(200, response.length());
                     out.print(response);
                 } else {
@@ -167,25 +164,40 @@ public class DeviceHandler extends APIHandler {
         List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
         String response = null;
         // TODO: actually use the DAOs
+        int status = 400;
         switch (uriParts.size()){
             // /devices/{serial}/schedules
             case 4 -> {
+                Schedule schedule = null;
                 // getSchedules is a dummy function for secureGetSchedules.
-                List<Schedule> schedule = scheduleDao.getSchedules(uriParts.get(3), true);
+                try (InputStreamReader inputByUser = new InputStreamReader(exchange.getRequestBody())) {
+                    schedule = gson.fromJson(inputByUser, Schedule.class);
+                } catch (IOException ioex) {
+                    ioex.printStackTrace();
+                }
+
+                // CreateSchedule is a dummy function for secureCreateSchedule().
+                scheduleDao.createSchedule(schedule);
+                // getSchedules is a dummy function for secureGetSchedules.
+
                 // CreateSchedule is a dummy function for secureCreateSchedule().
                 //scheduleDao.createSchedule(schedule);
 
-                response = gson.toJson(schedule);
+                status = 200;
             }
 
         }
 
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
-            if (response != null) {
-                exchange.sendResponseHeaders(200, response.length());
-                out.print(response);
+            if (status / 100 == 2) {
+                if (response == null) {
+                    exchange.sendResponseHeaders(status, -1);
+                } else {
+                    exchange.sendResponseHeaders(status, response.length());
+                    out.print(response);
+                }
             } else {
-                exchange.sendResponseHeaders(400, -1);
+                exchange.sendResponseHeaders(status, -1);
             }
         } catch (IOException ioex) {
             ioex.printStackTrace();
