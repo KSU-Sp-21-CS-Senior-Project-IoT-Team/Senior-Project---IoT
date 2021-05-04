@@ -50,6 +50,9 @@ public class ScheduleDao implements Dao {
         ),
         GET_SCHEDULE_ID_BY_DATA(
                 "select Schedule_ID from iot_db.Schedule where Device_Serial = ? and Schedule_Data = ?;"
+        ),
+        GET_LOCATION_BY_SERIAL(
+                "select * from iot_db.Location as L join iot_db.Thermostat_Device as TD on L.Location_ID = TD.Location_ID where Serial_Number = ?;"
         )
         ;
         public final String sql;
