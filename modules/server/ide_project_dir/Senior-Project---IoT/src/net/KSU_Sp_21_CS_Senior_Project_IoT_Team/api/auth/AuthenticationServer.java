@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.LoginCredentials;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.User;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.DBConnectionProvider;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
@@ -97,10 +100,50 @@ public class AuthenticationServer extends APIHandler {
 
     private void doRegisterUser(HttpExchange exchange) {
         // TODO: implement registration comms
+        User user = null;
+        // i have to get the user id and pass it in to the User user.
+        LoginCredentials login_credentials = null;
+        // i have to get the password and pass it in to the LoginCredentials login_credentials
+        final boolean token = provider.register(user, login_credentials);
+        if (!token) {
+            try {
+                exchange.sendResponseHeaders(401, -1);
+            } catch (Exception e) {
+                e.printStackTrace(); // TODO: proper logging
+            }
+            return;
+        }
+
+        final String response = gson.toJson(token, Token.class);
+        try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            exchange.sendResponseHeaders(200, response.length());
+            out.print(response);
+        } catch (IOException ioException) {
+            ioException.printStackTrace(); // TODO: proper logging
+        }
     }
 
     private void doRegisterDevice(HttpExchange exchange) {
         // TODO: implement registration commms
+        Device device = null;
+        LoginCredentials login_credentials = null;
+        final boolean token = provider.register(device, login_credentials);
+        if (!token) {
+            try {
+                exchange.sendResponseHeaders(401, -1);
+            } catch (Exception e) {
+                e.printStackTrace(); // TODO: proper logging
+            }
+            return;
+        }
+
+        final String response = gson.toJson(token, Token.class);
+        try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            exchange.sendResponseHeaders(200, response.length());
+            out.print(response);
+        } catch (IOException ioException) {
+            ioException.printStackTrace(); // TODO: proper logging
+        }
     }
 
     @Override

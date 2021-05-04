@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.APIHandler;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.Registrar;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.DeviceDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ForecastDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.UserDao;
@@ -49,7 +50,6 @@ public class UserHandler extends APIHandler {
     // TODO: implement
     @Override
     public void doGET(HttpExchange exchange) {
-        //START for Josh Yang
         List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
 
         String response = null;
@@ -74,6 +74,7 @@ public class UserHandler extends APIHandler {
 
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
             if (response != null) {
+                exchange.getResponseHeaders().set("Content-type", "application/json");
                 exchange.sendResponseHeaders(200, response.length());
                 out.print(response);
             } else {
@@ -82,13 +83,33 @@ public class UserHandler extends APIHandler {
         } catch (IOException ioex) {
             ioex.printStackTrace(); // TODO: proper logging
         }
-        //END for Josh Yang
     }
 
     // TODO: implement
     @Override
     public void doPOST(HttpExchange exchange) {
+        List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
 
+        String response = null;
+
+        switch (uriParts.size()){
+            // /users/{user_id}/devices
+            case 4 -> {
+
+            }
+        }
+
+        try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            if (response != null) {
+                exchange.getResponseHeaders().set("Content-type", "application/json");
+                exchange.sendResponseHeaders(200, response.length());
+                out.print(response);
+            } else {
+                exchange.sendResponseHeaders(400, -1); // bad request
+            }
+        } catch (IOException ioex) {
+            ioex.printStackTrace(); // TODO: proper logging
+        }
     }
 
     @Override
