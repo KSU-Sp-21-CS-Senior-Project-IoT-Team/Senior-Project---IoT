@@ -7,14 +7,13 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.*;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
 public class ScheduleDao implements Dao {
-    private static final double BUDGET_TEMP_TOLERANCE = 2;
+    private static final double TEMP_TOLERANCE = 0;
 
     private enum Query {
         SEC_GET_ACTIVE_SCHEDULE(
@@ -39,7 +38,7 @@ public class ScheduleDao implements Dao {
         ),
 
         GET_SCHEDULE_BY_SERIAL(
-                "select * from Schedule S join Thermostat_Device TD on S.Schedule_ID = TD.Active_Schedule where Serial_Number = ?;"
+                "select * from iot_db.Schedule S join iot_db.Thermostat_Device TD on S.Schedule_ID = TD.Active_Schedule where Serial_Number = ?;"
         ),
 
         NEW_SCHEDULE(
@@ -52,7 +51,7 @@ public class ScheduleDao implements Dao {
                 "select Schedule_ID from iot_db.Schedule where Device_Serial = ? and Schedule_Data = ?;"
         ),
         GET_LOCATION_BY_SERIAL(
-                "select * from iot_db.Location as L join iot_db.Thermostat_Device as TD on L.Location_ID = TD.Location_ID where Serial_Number = ?;"
+                "select L.* from iot_db.Location as L join iot_db.Thermostat_Device as TD on L.Location_ID = TD.Location_ID where Serial_Number = ?;"
         )
         ;
         public final String sql;
@@ -77,8 +76,6 @@ public class ScheduleDao implements Dao {
                 if (jsonResults.size() == 0) return null;
                 System.out.println(jsonResults.get(0).toString());
                 Schedule s = Dao.GSON.fromJson(jsonResults.get(0).toString(), Schedule.class);
-                for (Field f : s.getClass().getDeclaredFields())
-                    System.out.println(f.getType().getName() + ": " + f.get(s));
                 return Collections.singletonList(
                         Dao.GSON.fromJson(jsonResults.get(0).toString().toLowerCase(), Schedule.class)
                 );
@@ -98,36 +95,42 @@ public class ScheduleDao implements Dao {
             statement.setString(1, serial);
             JsonArray results = Utils.rsToJSON(statement.executeQuery());
             if (results.size() == 0) return null;
-            Schedule schedule = Dao.GSON.fromJson(results.get(0), Schedule.class);
-            ScheduleData data = Dao.GSON.fromJson(schedule.scheduleData, ScheduleData.class);
+            Schedule schedule = Dao.GSON.fromJson(results.get(0).toString().toLowerCase(), Schedule.class);
+            ScheduleData data = Dao.GSON.fromJson(schedule.scheduleData.toLowerCase(), ScheduleData.class);
             SimpleSchedule result = null;
-            if (data.isBudget) {
                 // handle the new feature
                 // get location of thermostat
                 PreparedStatement locQuery = connection.prepareStatement(Query.GET_LOCATION_BY_SERIAL.sql);
                 locQuery.setString(1, serial);
                 JsonArray locRes = Utils.rsToJSON(locQuery.executeQuery());
                 if (locRes.size() == 0) return null;
-                Location location = Dao.GSON.fromJson(locRes, Location.class);
+            System.out.println(locRes.get(0));
+                Location location = Dao.GSON.fromJson(locRes.get(0).toString().toLowerCase(), Location.class);
                 // get forecast first
                 Forecast forecast = new ForecastDao().getForecastByLocation(location);
                 // decide on the mode
-                int temperature = ForecastDao.extractTempFromForecast(forecast);
+                Integer temperature = ForecastDao.extractTempFromForecast(forecast);
+                if (temperature == null) return null;
                 // assume that first element is threshold
-                if (temperature < data.temperatures[0]) {
-                    result = new SimpleSchedule(data.temperatures[1], "heat"); // for heat, second element is minimum
-                } else {
-                    result = new SimpleSchedule(data.temperatures[2], "cool"); // for cool, third element is maximum
-                }
+                //if (data.isBudget) {
+                    if (temperature < data.temperatures[0] - TEMP_TOLERANCE) {
+                        result = new SimpleSchedule(data.temperatures[data.isBudget? 1 : 0], "heat"); // for heat, second element is minimum
+                    } else if (temperature > data.temperatures[0] + TEMP_TOLERANCE){
+                        result = new SimpleSchedule(data.temperatures[data.isBudget? 2 : 0], "cool"); // for cool, third element is maximum
+                    } else {
+                        result = new SimpleSchedule(data.temperatures[0], "off");
+                    }
+                //} else {
+                    /*
+                    result = new SimpleSchedule(
+                            data.temperatures[(int)(System.currentTimeMillis() % 86400000) / 1800000],
+                            "auto"
+                    );
+
+                     */
+                //}
                 // format new simpleschedule
-            } else {
-                // no special handling, just wrap it up in simple schedule and return
-                Map<Long, Integer> temperatures = new HashMap<>();
-                result = new SimpleSchedule(
-                        data.temperatures[(int)(System.currentTimeMillis() % 86400000) / 1800000],
-                        "auto"
-                );
-            }
+
             return result;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

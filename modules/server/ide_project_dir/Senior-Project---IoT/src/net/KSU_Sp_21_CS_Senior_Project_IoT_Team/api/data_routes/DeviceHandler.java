@@ -10,7 +10,6 @@ import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleCostDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.dao.ScheduleDao;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Device;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
-import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.ScheduleInput;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.SimpleSchedule;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
@@ -80,8 +79,11 @@ public class DeviceHandler extends APIHandler {
             // /devices/{serial}/schedules
             case 4 -> {
                 SimpleSchedule schedule = scheduleDao.getScheduleByDevice(uriParts.get(2));
+                System.out.println(schedule);
 
-                if (schedule == null) {
+
+                response = gson.toJson(schedule, SimpleSchedule.class);
+				if (schedule == null) {
                     try {
                         Utils.sendInternalServerError(exchange);
                     } catch (IOException ioException) {
@@ -89,14 +91,13 @@ public class DeviceHandler extends APIHandler {
                     }
                     return;
                 }
-
-                response = gson.toJson(schedule, Schedule.class);
             }
         }
 
             try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
                 if (response != null) {
-                    exchange.getResponseHeaders().set("Content-type", "application/json");
+                    exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
                     exchange.sendResponseHeaders(200, response.length());
                     out.print(response);
                 } else {
@@ -113,6 +114,7 @@ public class DeviceHandler extends APIHandler {
         List<String> uriParts = Utils.getPathParts(exchange.getRequestURI());
         String response = null;
         // TODO: actually use the DAOs
+        int status = 400;
         switch (uriParts.size()){
             // /devices/{serial}
             case 3 -> {
@@ -139,17 +141,18 @@ public class DeviceHandler extends APIHandler {
             }
             // /devices/{serial}/schedules
             case 4 -> {
-                List<Schedule> schedule = null;
-
+                Schedule schedule = null;
+                // getSchedules is a dummy function for secureGetSchedules.
                 try (InputStreamReader inputByUser = new InputStreamReader(exchange.getRequestBody())) {
-                    schedule = gson.fromJson(inputByUser, (Type) Schedule.class);
+                    schedule = gson.fromJson(inputByUser, Schedule.class);
                 } catch (IOException ioex) {
                     ioex.printStackTrace();
                 }
-                // CreateSchedule is a dummy function for secureCreateSchedule().
-                scheduleDao.createSchedule((Schedule) schedule);
 
-                response = gson.toJson(schedule);
+                // CreateSchedule is a dummy function for secureCreateSchedule().
+                scheduleDao.createSchedule(schedule);
+
+                status = 200;
             }
 
         }
@@ -160,7 +163,7 @@ public class DeviceHandler extends APIHandler {
                 exchange.sendResponseHeaders(200, response.length());
                 out.print(response);
             } else {
-                exchange.sendResponseHeaders(400, -1);
+                exchange.sendResponseHeaders(status, -1);
             }
         } catch (IOException ioex) {
             ioex.printStackTrace();

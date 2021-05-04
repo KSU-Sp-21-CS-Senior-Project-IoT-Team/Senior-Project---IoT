@@ -78,7 +78,9 @@ public class ForecastDao implements Dao {
 */
             //forecast = GSON.fromJson(json, Forecast.class);
             //if (forecast.date < System.currentTimeMillis() + FORECAST_CACHE_LIFETIME) {
+            System.out.println(GSON.toJson(location, Location.class));
                 String query = queryWeatherAPI(location);
+            System.out.println(query);
                 if (query == null) return null;
                 // remove old
             /*
@@ -111,15 +113,17 @@ public class ForecastDao implements Dao {
     private static String queryWeatherAPI(Location location) {
         // get new forecast
         ExternalAPIServiceConfig weatherAPIConfig = Dao.getWeatherAPIConfig();
+        String url = String.format(
+                "%s?q=%s,%s,%s&appid=%s",
+                weatherAPIConfig.address,
+                location.city, location.province, location.country,
+                weatherAPIConfig.key
+        );
+        System.out.println(url);
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(
-                        String.format(
-                                "%s?q=%s,%s,%s&appid=%s",
-                                weatherAPIConfig.address,
-                                location.city, location.province, location.country,
-                                weatherAPIConfig.key
-                        )
+                        url
                 ))
                 .build();
         try {
