@@ -86,6 +86,8 @@ public class AuthenticationServer extends APIHandler {
 
         final String response = gson.toJson(token, Token.class);
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
             exchange.sendResponseHeaders(200, response.length());
             out.print(response);
         } catch (IOException ioException) {

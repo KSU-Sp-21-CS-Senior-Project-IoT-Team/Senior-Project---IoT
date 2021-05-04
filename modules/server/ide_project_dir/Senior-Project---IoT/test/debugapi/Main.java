@@ -27,6 +27,7 @@ public class Main {
             httpServer.createContext("/api/", server);
 
             System.out.println("Initializing API resources...");
+            Dao.setWeatherAPIKey(new File("./config/weather_api_config.json"));
             AuthenticationServer.init();
             Dao.setDbConnectionProvider(new File("./config/auth_db_cfg.json"));
             Dao.setSecurity(AuthenticationServer.getAuthProvider());
