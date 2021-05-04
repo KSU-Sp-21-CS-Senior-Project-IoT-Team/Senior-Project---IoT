@@ -75,8 +75,8 @@ public class AuthenticationServer extends APIHandler {
         ).split(":");
         final Token token = provider.authenticate(
                 !rawAuthParts[0].contains("-"),
-                rawAuthParts[0],
-                rawAuthParts[1]
+                rawAuthParts[0], // user id or serial
+                rawAuthParts[1]//password
         );
         if (token == null) {
             try {
@@ -98,10 +98,24 @@ public class AuthenticationServer extends APIHandler {
 
     private void doRegisterUser(HttpExchange exchange) {
         // TODO: implement registration comms
-        User user = null;
-        // i have to get the user id and pass it in to the User user.
-        LoginCredentials login_credentials = null;
-        // i have to get the password and pass it in to the LoginCredentials login_credentials
+        final String authString = exchange.getRequestHeaders().get("Authorization").get(0).split(" ")[1];
+        final String[] rawAuthParts = new String(
+                Base64.getDecoder().decode(
+                        authString
+                ),
+                StandardCharsets.US_ASCII
+        ).split(":");
+        User user = new User(
+                rawAuthParts[0],
+                null,
+                null
+        );
+
+        LoginCredentials login_credentials = new LoginCredentials(
+                rawAuthParts[0],
+                rawAuthParts[1]
+        );
+
         final boolean token = provider.register(user, login_credentials);
         if (!token) {
             try {
@@ -123,8 +137,27 @@ public class AuthenticationServer extends APIHandler {
 
     private void doRegisterDevice(HttpExchange exchange) {
         // TODO: implement registration commms
-        Device device = null;
-        LoginCredentials login_credentials = null;
+        final String authString = exchange.getRequestHeaders().get("Authorization").get(0).split(" ")[1];
+        final String[] rawAuthParts = new String(
+                Base64.getDecoder().decode(
+                        authString
+                ),
+                StandardCharsets.US_ASCII
+        ).split(":");
+        Device device = new Device(
+                rawAuthParts[0],
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        LoginCredentials login_credentials = new LoginCredentials(
+                rawAuthParts[0],
+                rawAuthParts[1]
+        );
+
         final boolean token = provider.register(device, login_credentials);
         if (!token) {
             try {
