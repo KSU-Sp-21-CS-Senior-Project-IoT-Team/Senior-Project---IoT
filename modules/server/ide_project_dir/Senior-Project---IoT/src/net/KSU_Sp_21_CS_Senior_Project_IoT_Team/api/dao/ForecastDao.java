@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Forecast;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Location;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.Schedule;
+import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.models.WeatherData;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Utils;
 
 import java.io.IOException;
@@ -22,13 +23,13 @@ import java.util.List;
 public class ForecastDao implements Dao {
     enum Query {
         GET_CUR_FORECAST(
-                "select * from Weather_Forecast WF join Location L on L.Location_ID = WF.Location_ID where WF.Location_ID = ?;"
+                "select * from iot_db.Weather_Forecast WF join iot_db.Location L on L.Location_ID = WF.Location_ID where L.City = ? and L.State = ? and L.Country = ?;"
         ),
         DEL_FORECAST(
-                "delete from Weather_Forecast where Forecast_ID = ?;"
+                "delete from iot_db.Weather_Forecast where Forecast_ID = ?;"
         ),
         ADD_FORECAST(
-                "insert into Weather_Forecast (Date, Data_From_API, Location_ID) values (?, ?, ?);"
+                "insert into iot_db.Weather_Forecast (Date, Data_From_API, Location_ID) values (?, ?, ?);"
         )
         ;
         public final String sql;
@@ -42,8 +43,11 @@ public class ForecastDao implements Dao {
 
     public Forecast getForecastByLocation(Location location) {
         final Connection connection;
-        if ((connection = Dao.getDBConnection()) == null) return null;
+
+        //if ((connection = Dao.getDBConnection()) == null) return null;
         try {
+            Forecast forecast;
+            /*
             final PreparedStatement statement = connection.prepareStatement(
                     Query.GET_CUR_FORECAST.sql
             );
@@ -53,7 +57,7 @@ public class ForecastDao implements Dao {
             statement.setString(3, location.country);
 
             final JsonArray json = Utils.rsToJSON(statement.executeQuery());
-            Forecast forecast;
+
             if (json.size() == 0) {
                 // we don't have a forecast cached
                 String query = queryWeatherAPI(location);
@@ -62,34 +66,43 @@ public class ForecastDao implements Dao {
                 forecast = new Forecast(
                         0, System.currentTimeMillis(), query, location.LocationID
                 );
+
                 PreparedStatement addForecast = connection.prepareStatement(Query.ADD_FORECAST.sql);
                 addForecast.setLong(1, forecast.date);
                 addForecast.setString(2, forecast.dataJSON);
                 addForecast.setInt(3, forecast.locationID);
                 addForecast.execute();
-            }
 
-            forecast = GSON.fromJson(json, Forecast.class);
-            if (forecast.date < System.currentTimeMillis() + FORECAST_CACHE_LIFETIME) {
+
+            }
+*/
+            //forecast = GSON.fromJson(json, Forecast.class);
+            //if (forecast.date < System.currentTimeMillis() + FORECAST_CACHE_LIFETIME) {
                 String query = queryWeatherAPI(location);
                 if (query == null) return null;
                 // remove old
+            /*
                 PreparedStatement remForecast = connection.prepareStatement(Query.DEL_FORECAST.sql);
                 remForecast.setInt(1, forecast.forecastID);
                 remForecast.execute();
+
+             */
                 // create new
                 forecast = new Forecast(
                         0, System.currentTimeMillis(), query, location.LocationID
                 );
+                /*
                 PreparedStatement addForecast = connection.prepareStatement(Query.ADD_FORECAST.sql);
                 addForecast.setLong(1, forecast.date);
                 addForecast.setString(2, forecast.dataJSON);
                 addForecast.setInt(3, forecast.locationID);
                 addForecast.execute();
-            }
+
+                 */
+            //}
 
             return forecast;
-        } catch (SQLException sqlException) {
+        } catch (/*SQL*/Exception sqlException) {
             sqlException.printStackTrace(); // TODO: proper logging
         }
         return null;
@@ -112,8 +125,6 @@ public class ForecastDao implements Dao {
         try {
             return HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(20))
-                    .authenticator(Authenticator.getDefault())
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString())
                     .body();
@@ -125,8 +136,16 @@ public class ForecastDao implements Dao {
         return null;
     }
 
-    public static int extractTempFromForecast(Forecast forecast) {
-        return -1;
+    public static Integer extractTempFromForecast(Forecast forecast) {
+        WeatherData data = GSON.fromJson(forecast.dataJSON, WeatherData.class);
+        if (data != null && data.main != null) {
+            return kelvinToFahrenheit(data.main.temp).intValue();
+        }
+        return null;
+    }
+
+    private static Double kelvinToFahrenheit(double kelvin) {
+        return (kelvin - 273.15) * 1.8 + 32;
     }
 
     @Override
