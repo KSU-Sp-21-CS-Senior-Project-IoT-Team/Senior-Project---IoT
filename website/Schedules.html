@@ -146,17 +146,17 @@ Date: <select name="month" id="month">
                                 monthSel.options[monthSel.options.length] = new Option(x, x);
                               }
                               monthSel.onchange = function() {
-                                //empty Chapters- and Topics- dropdowns
-                                yearSel.length = 1;
-                                daySel.length = 1;
+                                //empty Chapters- and Topics- dropdowns
+                                yearSel.length = 1;
+                                daySel.length = 1;
                                 //display correct values
                                 for (var y in dateObject[this.value]) {
                                     daySel.options[daySel.options.length] = new Option(y, y);
                                 }
                               }
                               daySel.onchange = function() {
-                                //empty Chapters dropdown
-                                yearSel.length = 1;
+                                //empty Chapters dropdown
+                                yearSel.length = 1;
                                 //display correct values
                                 var z = dateObject[monthSel.value][this.value];
                                 for (var i = 0; i < z.length; i++) {
@@ -194,6 +194,23 @@ Date: <select name="month" id="month">
                               else{
                                 document.getElementById("list").innerHTML += "<br><li>"+month.value+" "+ day.value+" "+year.value+" "+time.value+"<br> Temperature: "+ document.getElementById("temp").value + "&#176;</li>";
                               }
+                            }
+
+
+
+                            function scheduleFunction(){
+                                var budgetInfo = {"temperatures":["maxTemp","minTemp","threshTemp"]}; 
+                                var regInfo = {"temperature": ["temp"]};
+                                var request = new XMLHttpRequest();
+                                request.open('POST','http://sabernet.ddns.net:8080/api/devices/9be0a1cf-d7d9-48f4-9122-26a8e295cae3/schedules');
+                                request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+                                if (checkBox.checked == true){
+                                    request.send(budgetInfo);
+                                }
+                                else{
+                                    request.send(regInfo);
+                                }
+                                
                             }
 
                             </script>
