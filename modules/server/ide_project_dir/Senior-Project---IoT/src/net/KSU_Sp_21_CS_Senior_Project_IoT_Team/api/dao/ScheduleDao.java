@@ -42,7 +42,8 @@ public class ScheduleDao implements Dao {
         ),
 
         NEW_SCHEDULE(
-                "insert into iot_db.Schedule values (?, ?);"
+                //"update iot_db.Schedule set schedulevalues (?, ?);"
+                "update iot_db.Schedule set Schedule_Data = ? where Schedule_ID = 2;"
         ),
         SET_ACTIVE_SCHEDULE(
                 "update iot_db.Thermostat_Device set Active_Schedule = ? where Serial_Number = ?;"
@@ -148,11 +149,9 @@ public class ScheduleDao implements Dao {
             );
 
             statement.setString(1, schedule.scheduleData);
-            statement.setString(2, schedule.deviceSerial);
+            //statement.setString(2, schedule.deviceSerial);
 
-            final JsonArray json = Utils.rsToJSON(statement.executeQuery());
-            if (json.size() == 0) return false;
-            return GSON.fromJson(json, new TypeToken<List<Schedule>>() {}.getType()); // use this syntax for lists
+            return statement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace(); // TODO: proper logging
         }

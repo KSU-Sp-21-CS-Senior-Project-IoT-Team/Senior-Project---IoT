@@ -5,7 +5,7 @@
         <div class = "topnav">
                 <a href="index.html">Home</a>
                 <a href="login.html">Login</a>
-                <a href="Device_Registration.html">Registration</a>
+                <!--<a href="Device_Registration.html">Registration</a>-->
                 <a href="Device_Management.html">Device Management</a></body>
             </div>   
         <div class = "register-page">
@@ -14,8 +14,8 @@
                 <form class = "registration form">
                 <input type = "text" placeholder = "user name" id = "user"/>
                 <input type = "password" placeholder = "password" id = "pass"/>
-                <input type = "text" placeholder = "email"/>
-                <button onclick="showAlert(),registerFunction()"> Create </button>
+                <!--<input type = "text" placeholder = "email"/>-->
+                <button onclick="registerFunction()"> Create </button>
                 <p class = "msg">Have an account? <a href ="login.html"> Login </a></p>
                 </form>
 
@@ -23,15 +23,25 @@
                 <script>
                     
             function registerFunction(){
-                    var userpass = document.getElementById("user"+":"+"pass");
-                    var serveruserpass = btoa(userpass);
-                    var request = new XMLHttpRequest();
-                    request.open('POST','http://sabernet.ddns.net:8080/api/register');
-                    request.setRequestHeader('Authorization', 'Basic' + serveruserpass);
-                    request.send();
-            }
-            function showAlert(){
-                alert("Registration Complete!");
+                    var username = document.getElementById('user').value;
+                    var password = document.getElementById('pass').value;
+					if (username != '' && password != '') {
+						var serveruserpass = btoa(username + ':' + password);
+						var request = new XMLHttpRequest();
+						request.open('POST','http://sabernet.ddns.net:8080/api/users/register', false);
+						request.setRequestHeader('Authorization', 'Basic ' + serveruserpass);
+						request.onload = function () {
+							if (request.readyState === request.DONE) {
+								if (request.status === 200) {
+									console.log(request.response);
+									console.log(request.responseText);
+									//alert(request.response);
+								}
+							}
+						};
+						request.send();
+						alert("Registration Complete!");
+					}
             }
                 </script>
             </div>

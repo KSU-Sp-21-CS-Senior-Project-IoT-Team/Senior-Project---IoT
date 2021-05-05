@@ -8,11 +8,12 @@
 <div class="topnav">
 	<a href="index.html">Home</a>
 	<a href="login.html">Login</a>
-	<a href="Device_Registration.html">Registration</a>
+	<!--<a href="Device_Registration.html">Registration</a>-->
 	<a href="Device_Management.html">Device Management</a></div>
 
-<h1>Schedule Tasks here:
+<h1>Set Thermostat:
 </h1>
+<!--
 Date: <select name="month" id="month">
                 <option value="January" selected="selected">Month</option>
               </select>
@@ -25,6 +26,7 @@ Date: <select name="month" id="month">
         <br>
        
         <br><br>
+		-->
 <input type="checkbox" id="budgetMode" name="budgetMode" onclick="setBudget()">
 <label for="budgetMode">Enable Budget Mode?</label>
 
@@ -48,21 +50,23 @@ Date: <select name="month" id="month">
 </form><br>
 </div>
 
-<input type="submit" value="Submit" onclick="newJob()">  
-<div class="dropdown">
+<input type="submit" value="Submit" onclick="scheduleFunction()">  
+<!--<div class="dropdown">
         <button class="dropbtn">Time</button>
         <div class="dropdown-content">
-        
+        <!--
         <a href="1">Link 1</a>
         <a href="#">Link 2</a>
         <a href="#">Link 3</a>
+		
         </div>
-      </div>
-        
+      </div>-->
+    <!--    
 <h1>Current Schedule:
 </h1>
+-->
 
-<ul id="list"><ul>
+<!--<ul id="list"><ul>-->
 
                     <script>
                             var dateObject = {
@@ -199,17 +203,39 @@ Date: <select name="month" id="month">
 
 
                             function scheduleFunction(){
-                                var budgetInfo = {"temperatures":["maxTemp","minTemp","threshTemp"]}; 
-                                var regInfo = {"temperature": ["temp"]};
-                                var request = new XMLHttpRequest();
-                                request.open('POST','http://sabernet.ddns.net:8080/api/devices/9be0a1cf-d7d9-48f4-9122-26a8e295cae3/schedules');
-                                request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
-                                if (checkBox.checked == true){
-                                    request.send(budgetInfo);
-                                }
-                                else{
-                                    request.send(regInfo);
-                                }
+								var thresh = document.getElementById("threshTemp").value;
+								var min = document.getElementById("minTemp").value;
+								var max = document.getElementById("maxTemp").value;
+								var temp = document.getElementById("temp").value;
+								var checkBox = document.getElementById("budgetMode");
+								var budgetInfo = "{\"temperatures\":["
+										+ thresh
+										+ ", " + min
+										+ ", " + max
+										+ "], \"is_budget\":"
+										+ checkBox.checked
+										+ "}";
+								var regInfo = "{\"temperatures\":["
+										+ temp
+										+ ", " + 0
+										+ ", " + 0
+										+ "], \"is_budget\":"
+										+ checkBox.checked
+										+ "}";
+                                //var budgetInfo = {"temperatures":["maxTemp","minTemp","threshTemp"]}; 
+                                //var regInfo = {"temperature": ["temp"]};
+								if ((checkBox.checked && thresh != '' && min != '' && max != '') || (!checkBox.checked && temp != '')) {
+									var request = new XMLHttpRequest();
+									request.open('POST','http://sabernet.ddns.net:8080/api/devices/9be0a1cf-d7d9-48f4-9122-26a8e295cae3/schedules', false);
+									request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+									if (checkBox.checked == true){
+										request.send(budgetInfo);
+									}
+									else{
+										request.send(regInfo);
+									}
+									alert("Settings Updated!");
+								}
                                 
                             }
 

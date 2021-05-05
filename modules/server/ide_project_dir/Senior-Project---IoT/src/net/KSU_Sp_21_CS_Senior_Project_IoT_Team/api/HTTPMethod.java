@@ -8,6 +8,7 @@ public enum HTTPMethod {
     POST,
     PUT,
     DELETE,
+    OPTIONS,
     ;
 
     private static final Map<String, HTTPMethod> STRING_LOOKUP_MAP = new HashMap<>();

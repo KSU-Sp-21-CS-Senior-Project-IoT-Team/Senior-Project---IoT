@@ -2,6 +2,7 @@ package net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.AccountLoginRecord;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.auth.models.Token;
 import net.KSU_Sp_21_CS_Senior_Project_IoT_Team.api.util.Security;
@@ -40,7 +41,9 @@ public class Authenticator {
                     String.format((isUser? USER_LOGIN_QUERY : DEVICE_LOGIN_QUERY), sanitizedID)
             );
             final ResultSet rs = query.executeQuery();
-            final AccountLoginRecord record = GSON.fromJson(Utils.rsToJSON(rs).get(0), AccountLoginRecord.class);
+            JsonArray arr = Utils.rsToJSON(rs);
+            if (arr == null || arr.size() == 0) return null;
+            final AccountLoginRecord record = GSON.fromJson(arr.get(0), AccountLoginRecord.class);
             //System.out.println(GSON.toJson(record, AccountLoginRecord.class));
             if (security.comparePassword(record.password, password)) {
                 final Token token = security.createToken(record.accountID);

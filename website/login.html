@@ -8,7 +8,7 @@
             <div class = "topnav">
                     <a href="index.html">Home</a>
                     <a href="login.html">Login</a>
-                    <a href="Device_Registration.html">Registration</a>
+                    <!--<a href="Device_Registration.html">Registration</a>-->
                     <a href="Device_Management.html">Device Management</a></body>
                 </div> 
                    
@@ -20,7 +20,7 @@
 
                 Login Here
                 <input type = "text" placeholder = "user name" id = "user"/>
-                <input type = "text" placeholder = "password" id = "pass"/>
+                <input type = "password" placeholder = "password" id = "pass"/>
                 <button onclick = "loginFunction()"> Login </button>
 
                 Need to register?
@@ -32,15 +32,24 @@
         </div>
         <script>
             function loginFunction(){
-                    var userpass = document.getElementById("user"+":"+"pass");
-                    var serveruserpass = btoa(userpass);
-                    var request = new XMLHttpRequest();
-                    request.open('POST','http://sabernet.ddns.net:8080/api/login');
-                    request.setRequestHeader('Authorization', 'Basic' + serveruserpass);
-                    request.send();
-            }
-            function showAlert(){
-                alert("Login Complete!");
+					var username = document.getElementById("user").value;
+					var password = document.getElementById("pass").value;
+					if (username != '' && password != '') {
+						var serveruserpass = btoa(username + ":" + password);
+						var request = new XMLHttpRequest();
+						request.open('POST','http://sabernet.ddns.net:8080/api/login', false);
+						request.setRequestHeader('Authorization', 'Basic ' + serveruserpass);
+						if (request.readyState === request.DONE) {
+								if (request.status === 200) {
+									console.log(request.response);
+									console.log(request.responseText);
+									alert("Login sucessful!");
+								} else {
+									alert("Login failed.");
+								}
+							}
+						request.send();
+					}
             }
         </script>
     </body>

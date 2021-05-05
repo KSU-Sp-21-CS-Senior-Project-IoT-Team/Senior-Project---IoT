@@ -48,6 +48,27 @@ public abstract class APIHandler implements Comparable<APIHandler>, Closeable {
         // TODO: add default return of "method not supported"
     }
 
+    public void doOptions(HttpExchange exchange) {
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        //exchange.getResponseHeaders().set("Content-Type", "application/json");
+        try {
+            exchange.sendResponseHeaders(200, -1);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public static void addCORSHeaders(HttpExchange exchange) {
+        System.out.println("adding cors headers.");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+        exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+    }
+
     protected void sendNotFound(HttpExchange exchange) {
         // TODO: send response for resource not found (code 404)
     }

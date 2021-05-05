@@ -103,6 +103,8 @@ public class APIServer implements HttpHandler {
         }
 
         try {
+            APIHandler.addCORSHeaders(exchange);
+            System.out.println("Connection from " + exchange.getRemoteAddress().toString() + " accessing " + exchange.getRequestURI().getRawPath());
             // extract path & method, call corresponding method from appropriate handler. init a new handler if need be.
             final String path = exchange.getRequestURI().getRawPath();
             final HTTPMethod method = HTTPMethod.fromString(exchange.getRequestMethod());
@@ -114,6 +116,7 @@ public class APIServer implements HttpHandler {
                     case POST -> processor = handler::doPOST;
                     case PUT -> processor = handler::doPUT;
                     case DELETE -> processor = handler::doDelete;
+                    case OPTIONS -> processor = handler::doOptions;
                 }
             }
             final Consumer<HttpExchange> finProcessor = processor;

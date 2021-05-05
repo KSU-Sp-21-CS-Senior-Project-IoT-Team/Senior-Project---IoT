@@ -54,6 +54,7 @@ public class AuthenticationServer extends APIHandler {
 
     @Override
     public void doPOST(HttpExchange exchange) {
+        super.addCORSHeaders(exchange);
         // TODO: implement login & registration HTTP comms
         final List<String> pathParts = Utils.getPathParts(exchange.getRequestURI());
         final Consumer<HttpExchange> service = switch (pathParts.get(1)) {
@@ -80,6 +81,7 @@ public class AuthenticationServer extends APIHandler {
         );
         if (token == null) {
             try {
+                //super.addCORSHeaders(exchange);
                 exchange.sendResponseHeaders(401, -1);
             } catch (Exception e) {
                 e.printStackTrace(); // TODO: proper logging
@@ -89,8 +91,8 @@ public class AuthenticationServer extends APIHandler {
 
         final String response = gson.toJson(token, Token.class);
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            //super.addCORSHeaders(exchange);
             exchange.getResponseHeaders().set("Content-Type", "application/json");
-            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
             exchange.sendResponseHeaders(200, response.length());
             out.print(response);
         } catch (IOException ioException) {
@@ -107,10 +109,11 @@ public class AuthenticationServer extends APIHandler {
                 ),
                 StandardCharsets.US_ASCII
         ).split(":");
+        System.out.println("Registering user: " + rawAuthParts[0] + ":" + rawAuthParts[1]);
         User user = new User(
                 rawAuthParts[0],
                 null,
-                null
+                ""
         );
 
         LoginCredentials login_credentials = new LoginCredentials(
@@ -119,8 +122,10 @@ public class AuthenticationServer extends APIHandler {
         );
 
         final boolean token = provider.register(user, login_credentials);
+        System.out.println("Registration success: " + token);
         if (!token) {
             try {
+                super.addCORSHeaders(exchange);
                 exchange.sendResponseHeaders(401, -1);
             } catch (Exception e) {
                 e.printStackTrace(); // TODO: proper logging
@@ -128,10 +133,11 @@ public class AuthenticationServer extends APIHandler {
             return;
         }
 
-        final String response = gson.toJson(token, Token.class);
+        //final String response = gson.toJson(token);
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
-            exchange.sendResponseHeaders(200, response.length());
-            out.print(response);
+            //super.addCORSHeaders(exchange);
+            exchange.sendResponseHeaders(200, /*response.length()*/ -1);
+            //out.print(response);
         } catch (IOException ioException) {
             ioException.printStackTrace(); // TODO: proper logging
         }
@@ -172,6 +178,7 @@ public class AuthenticationServer extends APIHandler {
 
         final String response = gson.toJson(token, Token.class);
         try (PrintWriter out = new PrintWriter(exchange.getResponseBody())) {
+            super.addCORSHeaders(exchange);
             exchange.sendResponseHeaders(200, response.length());
             out.print(response);
         } catch (IOException ioException) {
