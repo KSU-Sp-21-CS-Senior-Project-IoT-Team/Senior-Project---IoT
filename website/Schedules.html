@@ -11,6 +11,17 @@
 	<!--<a href="Device_Registration.html">Registration</a>-->
 	<a href="Device_Management.html">Device Management</a></div>
 
+<h1> Current Temperature Setting:
+</h1>
+
+
+<p class="inline">TEMPERATURE: </p>
+<p class="inline" id="currentTemp"></p>
+<p class="inline">	&#8457;</p>
+<br>
+<p class="inline">MODE: </p>
+<p class="inline" id="currentMode"></p>
+
 <h1>Set Thermostat:
 </h1>
 <!--
@@ -54,7 +65,6 @@ Date: <select name="month" id="month">
 <!--<div class="dropdown">
         <button class="dropbtn">Time</button>
         <div class="dropdown-content">
-        <!--
         <a href="1">Link 1</a>
         <a href="#">Link 2</a>
         <a href="#">Link 3</a>
@@ -69,6 +79,7 @@ Date: <select name="month" id="month">
 <!--<ul id="list"><ul>-->
 
                     <script>
+                            CurrentTemperature();
                             var dateObject = {
                               "January": {
                                 "1":[2021],  "2":[2021], "3":[2021], "4":[2021], "5":[2021], "6":[2021], "7":[2021], "8":[2021], "9":[2021], "10":[2021],"11":[2021],"12":[2021] ,"13":[2021] ,"14":[2021] ,"15":[2021] ,"16":[2021] ,"17":[2021] ,"18":[2021] ,"19":[2021] ,"20":[2021] ,"21":[2021] ,"22":[2021] ,"23":[2021] ,"24":[2021] ,"25":[2021] ,"26":[2021] ,"27":[2021] ,"28":[2021] ,"29":[2021] ,"30":[2021] ,"31":[2021] 
@@ -236,7 +247,25 @@ Date: <select name="month" id="month">
 									}
 									alert("Settings Updated!");
 								}
-                                
+                            }
+
+                            function CurrentTemperature() {
+                                var request = new XMLHttpRequest();
+                                request.open('GET','http://sabernet.ddns.net:8080/api/devices/9be0a1cf-d7d9-48f4-9122-26a8e295cae3/schedules', false);
+                                request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+                                request.send();
+
+                                var currentTemp = null;
+                                var currentMode = null;
+                                if (request.response == null) {
+                                    document.getElementById("currentTemp").innerHTML = currentTemp;
+                                } else {
+                                    var obj = JSON.parse(request.response);
+                                    currentTemp = obj.temperature;
+                                    currentMode = obj.mode;
+                                    document.getElementById("currentTemp").innerHTML = currentTemp;
+                                    document.getElementById("currentMode").innerHTML = currentMode;
+                                }
                             }
 
                             </script>

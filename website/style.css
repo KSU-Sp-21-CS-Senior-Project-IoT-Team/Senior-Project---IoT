@@ -472,3 +472,10 @@ h5{
   background-color: #3e8e41;
 }
 
+.inline {
+    display: inline;
+    font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 35px;
+}
+
+
