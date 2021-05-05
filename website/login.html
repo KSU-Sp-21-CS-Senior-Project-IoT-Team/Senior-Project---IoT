@@ -21,7 +21,7 @@
                 Login Here
                 <input type = "text" placeholder = "user name"/>
                 <input type = "text" placeholder = "password"/>
-                <button> Login </button>
+                <button onclick = "loginFunction()"> Login </button>
 
                 Need to register?
                 <li><a href="Registration.html">Register</a>
@@ -30,5 +30,16 @@
 
             </div>
         </div>
+        <script>
+            function loginFunction(){
+                    var request = new XMLHttpRequest();
+                    request.open('POST','http://sabernet.ddns.net:8080/api/login');
+                    request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+                    request.send();
+            }
+            function showAlert(){
+                alert("Login Complete!");
+            }
+        </script>
     </body>
 </html>
