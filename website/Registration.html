@@ -21,10 +21,16 @@
 
 
                 <script>
-                    function showAlert(){
-                        alert("Registration Complete!");
-                    }
-                
+                    
+            function registerFunction(){
+                    var request = new XMLHttpRequest();
+                    request.open('POST','http://sabernet.ddns.net:8080/api/register');
+                    request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+                    request.send();
+            }
+            function showAlert(){
+                alert("Registration Complete!");
+            }
                 </script>
             </div>
 
