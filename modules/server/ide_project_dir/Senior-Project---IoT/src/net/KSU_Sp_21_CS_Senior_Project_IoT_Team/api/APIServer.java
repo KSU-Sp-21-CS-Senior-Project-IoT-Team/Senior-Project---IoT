@@ -109,9 +109,10 @@ public class APIServer implements HttpHandler {
             final String path = exchange.getRequestURI().getRawPath();
             final HTTPMethod method = HTTPMethod.fromString(exchange.getRequestMethod());
             final APIHandler handler = getHandler(path);
+            System.out.println(handler);
             Consumer<HttpExchange> processor = null;
             if (handler != null) {
-                switch (HTTPMethod.fromString(exchange.getRequestMethod())) {
+                switch (method) {
                     case GET -> processor = handler::doGET;
                     case POST -> processor = handler::doPOST;
                     case PUT -> processor = handler::doPUT;

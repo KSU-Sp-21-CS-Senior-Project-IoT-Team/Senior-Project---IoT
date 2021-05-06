@@ -34,7 +34,7 @@ public class AuthenticationServer extends APIHandler {
          *
          * Otherwise, just make sure the bottom few lines have the name of this class.
          */
-        final Pattern pattern = PATTERN = Pattern.compile("/api/((login)|((devices|users)/register))");
+        final Pattern pattern = PATTERN = Pattern.compile("/api/((login)|registration/(user|device))");
 
         final Function<String, Boolean> matcher = MATCHER = s -> pattern.matcher(s).matches();
         APIHandler.CHILD_MATCHER_MAP.put(AuthenticationServer.class, matcher);
@@ -54,13 +54,17 @@ public class AuthenticationServer extends APIHandler {
 
     @Override
     public void doPOST(HttpExchange exchange) {
-        super.addCORSHeaders(exchange);
+        //super.addCORSHeaders(exchange);
         // TODO: implement login & registration HTTP comms
         final List<String> pathParts = Utils.getPathParts(exchange.getRequestURI());
+        System.out.println(pathParts.get(1));
         final Consumer<HttpExchange> service = switch (pathParts.get(1)) {
             case "login" -> this::doLogin;
-            case "devices" -> this::doRegisterDevice;
-            case "users" -> this::doRegisterUser;
+            case "registration" -> switch (pathParts.get(2)) {
+                case "user" -> this::doRegisterUser;
+                case "device" -> this::doRegisterDevice;
+                default -> super::sendNotFound;
+            };
             default -> super::sendNotFound;
         };
         service.accept(exchange);

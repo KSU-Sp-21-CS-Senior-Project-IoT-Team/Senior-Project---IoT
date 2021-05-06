@@ -15,10 +15,9 @@
                 <input type = "text" placeholder = "user name" id = "user"/>
                 <input type = "password" placeholder = "password" id = "pass"/>
                 <!--<input type = "text" placeholder = "email"/>-->
-                <button onclick="registerFunction()"> Create </button>
                 <p class = "msg">Have an account? <a href ="login.html"> Login </a></p>
                 </form>
-
+			<input type="submit" value="Register" onclick="registerFunction()">  
 
                 <script>
                     
@@ -28,19 +27,21 @@
 					if (username != '' && password != '') {
 						var serveruserpass = btoa(username + ':' + password);
 						var request = new XMLHttpRequest();
-						request.open('POST','http://sabernet.ddns.net:8080/api/users/register', false);
+						request.open('POST','http://sabernet.ddns.net:8080/api/registration/user', false);
 						request.setRequestHeader('Authorization', 'Basic ' + serveruserpass);
-						request.onload = function () {
-							if (request.readyState === request.DONE) {
-								if (request.status === 200) {
-									console.log(request.response);
-									console.log(request.responseText);
-									//alert(request.response);
-								}
-							}
-						};
+							
+					
 						request.send();
-						alert("Registration Complete!");
+						if (request.readyState === request.DONE) {
+							if (request.status === 200) {
+								console.log(request.response);
+								console.log(request.responseText);
+								alert('Registration Complete!');
+								window.location.href = "login.html";
+							} else {
+								alert('Registration Failed. Try a different username.');
+							}
+						}
 					}
             }
                 </script>

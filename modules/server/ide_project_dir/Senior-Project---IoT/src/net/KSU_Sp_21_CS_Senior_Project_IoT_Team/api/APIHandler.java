@@ -49,12 +49,16 @@ public abstract class APIHandler implements Comparable<APIHandler>, Closeable {
     }
 
     public void doOptions(HttpExchange exchange) {
+        /*
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
         exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Origin");
         exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
         exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
         //exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+         */
         try {
+            System.out.println("Sent options!");
             exchange.sendResponseHeaders(200, -1);
         } catch (IOException ioException) {
             ioException.printStackTrace();

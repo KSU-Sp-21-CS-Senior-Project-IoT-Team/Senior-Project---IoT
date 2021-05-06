@@ -228,13 +228,22 @@ Date: <select name="month" id="month">
 									var request = new XMLHttpRequest();
 									request.open('POST','http://sabernet.ddns.net:8080/api/devices/9be0a1cf-d7d9-48f4-9122-26a8e295cae3/schedules', false);
 									request.setRequestHeader('Authorization', 'Basic QWRtaW46cSVtIj1mSihWWSIjQnBMSDQ4fjspPkB1UWhnN2paNUA=');
+																		
 									if (checkBox.checked == true){
 										request.send(budgetInfo);
 									}
 									else{
 										request.send(regInfo);
 									}
-									alert("Settings Updated!");
+									if (request.readyState === request.DONE) {
+										if (request.status === 200) {
+											console.log(request.response);
+											console.log(request.responseText);
+											alert('Settings Updated!');
+										} else {
+											alert('Failed to update settings.');
+										}
+									}
 								}
                                 
                             }

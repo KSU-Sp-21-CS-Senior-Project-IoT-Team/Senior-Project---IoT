@@ -21,12 +21,11 @@
                 Login Here
                 <input type = "text" placeholder = "user name" id = "user"/>
                 <input type = "password" placeholder = "password" id = "pass"/>
-                <button onclick = "loginFunction()"> Login </button>
-
+                <!--<button onclick = "loginFunction()"> Login </button>-->
                 Need to register?
                 <li><a href="Registration.html">Register</a>
-        
                 </form>
+				<input type="submit" value="Login" onclick="loginFunction()">
 
             </div>
         </div>
@@ -39,16 +38,18 @@
 						var request = new XMLHttpRequest();
 						request.open('POST','http://sabernet.ddns.net:8080/api/login', false);
 						request.setRequestHeader('Authorization', 'Basic ' + serveruserpass);
-						if (request.readyState === request.DONE) {
-								if (request.status === 200) {
-									console.log(request.response);
-									console.log(request.responseText);
-									alert("Login sucessful!");
-								} else {
-									alert("Login failed.");
-								}
-							}
+							
 						request.send();
+						if (request.readyState === request.DONE) {
+							if (request.status === 200) {
+								console.log(request.response);
+								console.log(request.responseText);
+								alert("Login sucessful!");
+								window.location.href = "Schedules.html";
+							} else {
+								alert("Login failed.");
+							}
+						}
 					}
             }
         </script>
